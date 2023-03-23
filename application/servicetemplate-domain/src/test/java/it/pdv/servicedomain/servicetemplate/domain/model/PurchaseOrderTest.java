@@ -9,9 +9,8 @@ import java.time.Instant;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import it.pdv.servicedomain.servicetemplate.domain.purchaseorder.error.InvalidDomainEntityException;
-import it.pdv.servicedomain.servicetemplate.domain.purchaseorder.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.purchaseorder.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
+import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
 
 class PurchaseOrderTest {
 
