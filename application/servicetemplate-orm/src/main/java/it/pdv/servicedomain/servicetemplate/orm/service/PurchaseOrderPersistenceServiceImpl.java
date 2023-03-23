@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderJPA;
+import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderEntity;
 import it.pdv.servicedomain.servicetemplate.orm.mapper.PurchaseOrderMapper;
 import it.pdv.servicedomain.servicetemplate.orm.repository.PurchaseOrderRepository;
 
@@ -21,32 +21,32 @@ public class PurchaseOrderPersistenceServiceImpl implements PurchaseOrderPersist
 	}
 
 	public boolean createPurchaseOrder(PurchaseOrder purchaseOrder) {
-		PurchaseOrderJPA purchaseOrderJPA = mapper.purchaseOrderToPurchaseOrderJPA(purchaseOrder);
+		PurchaseOrderEntity purchaseOrderEntity = mapper.purchaseOrderToPurchaseOrderJPA(purchaseOrder);
 		try {
-			purchaseOrderJPA = purchaseOrderRepository.save(purchaseOrderJPA);
+			purchaseOrderEntity = purchaseOrderRepository.save(purchaseOrderEntity);
 		} catch (DataIntegrityViolationException e) {
-			purchaseOrderJPA = null;
+			purchaseOrderEntity = null;
 		}
-		return purchaseOrderJPA != null;
+		return purchaseOrderEntity != null;
 
 	}
 
 	public PurchaseOrder getPurchaseOrder(String code) {
 		PurchaseOrder purchaseOrder = null;
-		PurchaseOrderJPA purchaseOrderJPA = purchaseOrderRepository.findByCode(code);
-		if (purchaseOrderJPA != null) {
-			purchaseOrder = mapper.purchaseOrderJPAToPurchaseOrder(purchaseOrderJPA);
+		PurchaseOrderEntity purchaseOrderEntity = purchaseOrderRepository.findByCode(code);
+		if (purchaseOrderEntity != null) {
+			purchaseOrder = mapper.purchaseOrderJPAToPurchaseOrder(purchaseOrderEntity);
 		}
 		return purchaseOrder;
 	}
 
 	public boolean updatePurcahseOrder(PurchaseOrder purchaseOrder) {
-		PurchaseOrderJPA purchaseOrderJPA = purchaseOrderRepository.findByCode(purchaseOrder.getCode());
-		if (purchaseOrderJPA != null) {
-			mapper.updatePurchaseOrderJPAFromPurchaseOrder(purchaseOrder, purchaseOrderJPA);
-			purchaseOrderJPA = purchaseOrderRepository.save(purchaseOrderJPA);
+		PurchaseOrderEntity purchaseOrderEntity = purchaseOrderRepository.findByCode(purchaseOrder.getCode());
+		if (purchaseOrderEntity != null) {
+			mapper.updatePurchaseOrderJPAFromPurchaseOrder(purchaseOrder, purchaseOrderEntity);
+			purchaseOrderEntity = purchaseOrderRepository.save(purchaseOrderEntity);
 		}
-		return purchaseOrderJPA != null;
+		return purchaseOrderEntity != null;
 	}
 
 }

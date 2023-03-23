@@ -22,7 +22,7 @@ import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.orm.repository.PurchaseOrderRepository;
 
 @Transactional(propagation = Propagation.NEVER)
-@DataJpaTest
+@DataJpaTest(showSql = true)
 class PurchaseOrderPersistenceServiceImplTest {
 
 	@Autowired

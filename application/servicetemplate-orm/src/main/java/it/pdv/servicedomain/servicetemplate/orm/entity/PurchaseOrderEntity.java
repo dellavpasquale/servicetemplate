@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity(name = "PurchaseOrder")
 @Table(name = "purchase_order", uniqueConstraints = @UniqueConstraint(columnNames = "code") )
-public class PurchaseOrderJPA {
+public class PurchaseOrderEntity extends ORMEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PURCHASE_ORDER_ID_SEQ")
@@ -21,7 +21,6 @@ public class PurchaseOrderJPA {
 	private String code;
 	private String status;
 	private String customer;
-	private Instant createdAt;
 	private Instant orderedAt;
 	private Instant expectedDeliveryAt;
 	

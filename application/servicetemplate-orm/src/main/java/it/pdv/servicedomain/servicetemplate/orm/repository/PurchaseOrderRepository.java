@@ -2,10 +2,10 @@ package it.pdv.servicedomain.servicetemplate.orm.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderJPA;
+import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderEntity;
 
-public interface PurchaseOrderRepository extends CrudRepository<PurchaseOrderJPA, Long> {
+public interface PurchaseOrderRepository extends CrudRepository<PurchaseOrderEntity, Long> {
 
-	PurchaseOrderJPA findByCode(String code);
+	PurchaseOrderEntity findByCode(String code);
 
 }
