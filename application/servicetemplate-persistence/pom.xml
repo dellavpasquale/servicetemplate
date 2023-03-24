@@ -9,7 +9,7 @@
 		<artifactId>servicetemplate-application</artifactId>
 		<version>${revision}</version>
 	</parent>
-	<artifactId>servicetemplate-orm</artifactId>
+	<artifactId>servicetemplate-persistence</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

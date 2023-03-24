@@ -1,4 +1,4 @@
-package it.pdv.servicedomain.servicetemplate.orm.entity;
+package it.pdv.servicedomain.servicetemplate.persistence.entity;
 
 import java.time.Instant;
 

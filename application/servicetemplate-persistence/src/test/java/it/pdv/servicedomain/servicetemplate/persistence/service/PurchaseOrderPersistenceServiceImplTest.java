@@ -1,4 +1,4 @@
-package it.pdv.servicedomain.servicetemplate.orm.service;
+package it.pdv.servicedomain.servicetemplate.persistence.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.orm.repository.PurchaseOrderRepository;
+import it.pdv.servicedomain.servicetemplate.persistence.repository.PurchaseOrderRepository;
+import it.pdv.servicedomain.servicetemplate.persistence.service.PurchaseOrderPersistenceServiceImpl;
 
 @Transactional(propagation = Propagation.NEVER)
 @DataJpaTest(showSql = true)

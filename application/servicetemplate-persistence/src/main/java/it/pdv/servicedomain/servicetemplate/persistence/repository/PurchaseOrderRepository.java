@@ -1,8 +1,8 @@
-package it.pdv.servicedomain.servicetemplate.orm.repository;
+package it.pdv.servicedomain.servicetemplate.persistence.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderEntity;
+import it.pdv.servicedomain.servicetemplate.persistence.entity.PurchaseOrderEntity;
 
 public interface PurchaseOrderRepository extends CrudRepository<PurchaseOrderEntity, Long> {
 

@@ -1,4 +1,4 @@
-package it.pdv.servicedomain.servicetemplate.orm;
+package it.pdv.servicedomain.servicetemplate.persistence;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

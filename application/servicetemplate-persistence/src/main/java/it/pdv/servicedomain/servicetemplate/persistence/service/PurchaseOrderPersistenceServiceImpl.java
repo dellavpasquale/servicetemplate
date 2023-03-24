@@ -1,4 +1,4 @@
-package it.pdv.servicedomain.servicetemplate.orm.service;
+package it.pdv.servicedomain.servicetemplate.persistence.service;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderEntity;
-import it.pdv.servicedomain.servicetemplate.orm.mapper.PurchaseOrderMapper;
-import it.pdv.servicedomain.servicetemplate.orm.repository.PurchaseOrderRepository;
+import it.pdv.servicedomain.servicetemplate.persistence.entity.PurchaseOrderEntity;
+import it.pdv.servicedomain.servicetemplate.persistence.mapper.PurchaseOrderMapper;
+import it.pdv.servicedomain.servicetemplate.persistence.repository.PurchaseOrderRepository;
 
 @Transactional
 public class PurchaseOrderPersistenceServiceImpl implements PurchaseOrderPersistenceService {

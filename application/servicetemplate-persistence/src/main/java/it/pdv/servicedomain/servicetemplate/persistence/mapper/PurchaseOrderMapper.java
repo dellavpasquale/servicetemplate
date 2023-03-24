@@ -1,10 +1,10 @@
-package it.pdv.servicedomain.servicetemplate.orm.mapper;
+package it.pdv.servicedomain.servicetemplate.persistence.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.orm.entity.PurchaseOrderEntity;
+import it.pdv.servicedomain.servicetemplate.persistence.entity.PurchaseOrderEntity;
 
 @Mapper
 public interface PurchaseOrderMapper {
