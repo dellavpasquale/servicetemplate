@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: PurchaseOrder API
+  description: |-
+    This is the API to manage PurchaseOrder objects
+  version: 1.0.0
+externalDocs:
+  description: Find out more about PurchaseOrder component
+  url: http://swagger.io
+servers:
+  - url: https://purchaseorder/api
+tags:
+  - name: purchaseorder
+    description: Everything about PurchaseOrders
+paths:
+  /purchaseorder:
+    put:
+      tags:
+        - purchaseorder
+      summary: Update an existing PurchaseOrder
+      description: Update an existing pet by Id
+      operationId: updatePet
+      requestBody:
+        description: Update an existent pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'          
+        '400':
+          description: Invalid request supplied
+        '404':
+          description: PurchaseOrder not found
+        '500':
+          description: Internal error
+    post:
+      tags:
+        - purchaseorder
+      summary: Create a new PurchaseOrder
+      description: Create a new PurchaseOrder
+      operationId: createPurchaseOrder
+      requestBody:
+        description: Create a new PurchaseOrder
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'          
+        '400':
+          description: Invalid request supplied
+        '500':
+          description: Internal error
+  /purchaseorder/{purchaseorderCode}:
+    get:
+      tags:
+        - purchaseorder
+      summary: Find a PurchaseOrder
+      description: Find a Purchase Order by code
+      operationId: getPurchaseOrderByCode
+      parameters:
+        - name: purchaseorderCode
+          in: path
+          description: PurchaseOrder code
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'          
+        '400':
+          description: Invalid request supplied
+        '404':
+          description: PurchaseOrder not found
+        '500':
+          description: Internal error
+components:
+  schemas:
+    PurchaseOrder:
+      required:
+        - code
+        - status
+        - customer
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 8
+          maxLength: 40
+          example: e9dc6700-9842-40db-9e60-9e7044a3791a
+        status:
+          type: string
+          enum: [DRAFT, ORDERED, RECEIVED, CLOSED]
+          example: DRAFT
+        customer:
+          type: string
+          minLength: 2
+          maxLength: 56
+          example: John Mitch
+        createdAt:
+          type: string
+          format: date-time
+        orderedAt:
+          type: string
+          format: date-time
+        expectedDeliveryAt:
+          type: string
+          format: date-time
