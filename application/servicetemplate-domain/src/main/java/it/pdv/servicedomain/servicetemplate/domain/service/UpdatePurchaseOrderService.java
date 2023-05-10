@@ -1,37 +1,37 @@
 package it.pdv.servicedomain.servicetemplate.domain.service;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import org.mapstruct.factory.Mappers;
 
-import it.pdv.servicedomain.servicetemplate.domain.ValidationUtil;
 import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidOperationException;
+import it.pdv.servicedomain.servicetemplate.domain.mapper.PurchaseOrderMapper;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderGetRequest;
+import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderEditRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ConfirmPurchaseOrderService {
-	private static final int DEFAULT_EXPECTED_DELIVERY_DAYS = 3;
+public class UpdatePurchaseOrderService {
 	
 	private final RetrievePurchaseOrderService retrievePurchaseOrderService;
 	private final AccessControlService accessControlService;
 	private final PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private final PurchaseOrderNotificationService purchaseOrderNotificationService;
-
-	public PurchaseOrder confirm(PurchaseOrderGetRequest purchaseOrderGetRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
-		PurchaseOrder purchaseOrder = retrievePurchaseOrderService.getPurchaseOrder(purchaseOrderGetRequest);
+	
+	private PurchaseOrderMapper mapper = Mappers.getMapper(PurchaseOrderMapper.class);
+	
+	public PurchaseOrder update(PurchaseOrderEditRequest purchaseOrderEditRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+		PurchaseOrder purchaseOrder = retrievePurchaseOrderService.getPurchaseOrder(purchaseOrderEditRequest);
+		purchaseOrder.validate();
 		validateOperation(purchaseOrder);
-		purchaseOrder.setStatus(Status.ORDERED);
-		purchaseOrder.setOrderedAt(Instant.now());
-		purchaseOrder.setExpectedDeliveryAt(calculateExpectedDeliveryDate(purchaseOrder));
+		mapper.updatePurchaseOrderFromPurchaseOrderEditRequest(purchaseOrderEditRequest, purchaseOrder);
+		purchaseOrder.validate();
 		updatePurchaseOrder(purchaseOrder);
 		purchaseOrderNotificationService.notifyPurchaseOrderChange(purchaseOrder);
 		return purchaseOrder;
@@ -39,26 +39,15 @@ public class ConfirmPurchaseOrderService {
 
 	private void validateOperation(PurchaseOrder purchaseOrder) throws InvalidOperationException, ForbiddenOperationException {
 		if(!isAccessAllowed(purchaseOrder)) {
-			throw new ForbiddenOperationException(PurchaseOrder.class, purchaseOrder.getCode(), "CONFIRM");
+			throw new ForbiddenOperationException(PurchaseOrder.class, purchaseOrder.getCode(), "UPDATE");
 		}
 		if(!Status.DRAFT.equals(purchaseOrder.getStatus())) {
-			throw new InvalidOperationException(PurchaseOrder.class, purchaseOrder.getCode(), "CONFIRM", "status", Status.DRAFT, purchaseOrder.getStatus());
-		}
-		if(ValidationUtil.isBlank(purchaseOrder.getProduct())) {
-			throw new InvalidOperationException(PurchaseOrder.class, purchaseOrder.getCode(), "CONFIRM", "product is not empty");
+			throw new InvalidOperationException(PurchaseOrder.class, purchaseOrder.getCode(), "UPDATE", "status", Status.DRAFT, purchaseOrder.getStatus());
 		}
 	}
 	
 	private boolean isAccessAllowed(PurchaseOrder purchaseOrder) {
 		return accessControlService.isLoggedUser(purchaseOrder.getCustomer());
-	}
-	
-	public Instant calculateExpectedDeliveryDate(PurchaseOrder purchaseOrder) {
-		int days = DEFAULT_EXPECTED_DELIVERY_DAYS;
-		if(ChronoUnit.HOURS.between(purchaseOrder.getOrderedAt(),purchaseOrder.getCreatedAt()) < 24) {
-			days = 1;
-		}
-		return Instant.now().plus(days, ChronoUnit.DAYS);
 	}
 	
 	private void updatePurchaseOrder(PurchaseOrder purchaseOrder) throws DomainEntityNotFoundException {

@@ -4,7 +4,7 @@ import it.pdv.servicedomain.servicetemplate.domain.LoggingUtil;
 import it.pdv.servicedomain.servicetemplate.domain.ValidationUtil;
 import it.pdv.servicedomain.servicetemplate.domain.model.DomainEntity;
 
-public class DomainException extends Exception {
+public abstract class DomainException extends Exception {
 
 	private static final long serialVersionUID = 5400304538035739028L;
 

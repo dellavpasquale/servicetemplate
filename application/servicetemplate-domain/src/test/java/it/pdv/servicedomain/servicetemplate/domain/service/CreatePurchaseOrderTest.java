@@ -11,12 +11,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderNotificationService;
-import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
+import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
+import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderRequest;
 
 class CreatePurchaseOrderTest {
 
@@ -35,7 +36,9 @@ class CreatePurchaseOrderTest {
 	void testCreatePurchaseOrder() throws InvalidDomainEntityException, DomainEntityAlreadyExistsException {
 		when(purchaseOrderPersistenceService.createPurchaseOrder(any())).thenReturn(true);
 
-		PurchaseOrder purchaseOrder = createPurchaseOrderService.createPurchaseOrder("customer", "");
+		PurchaseOrderRequest purchaseOrderRequest = new PurchaseOrderRequest();
+		purchaseOrderRequest.setCustomer("customer");
+		PurchaseOrder purchaseOrder = createPurchaseOrderService.createPurchaseOrder(purchaseOrderRequest);
 		assertNotNull(purchaseOrder);
 		assertEquals("customer", purchaseOrder.getCustomer());
 		assertEquals(Status.DRAFT, purchaseOrder.getStatus());
@@ -45,7 +48,7 @@ class CreatePurchaseOrderTest {
 	@Test
 	void tesPurchaseOrderInvalid() {
 		Exception exception = Assertions.assertThrows(InvalidDomainEntityException.class, () -> {
-			createPurchaseOrderService.createPurchaseOrder(" ", "");
+			createPurchaseOrderService.createPurchaseOrder(null);
 		});
 		assertTrue(exception.getMessage().endsWith("'customer is not blank': <false>"));
 	}
@@ -54,8 +57,11 @@ class CreatePurchaseOrderTest {
 	void tesPurchaseOrderAlreadyExists() {
 		when(purchaseOrderPersistenceService.createPurchaseOrder(any())).thenReturn(false);
 
+		PurchaseOrderRequest purchaseOrderRequest = new PurchaseOrderRequest();
+		purchaseOrderRequest.setCode("code");
+		purchaseOrderRequest.setCustomer("customer");
 		Exception exception = Assertions.assertThrows(DomainEntityAlreadyExistsException.class, () -> {
-			createPurchaseOrderService.createPurchaseOrder("customer", "code");
+			createPurchaseOrderService.createPurchaseOrder(purchaseOrderRequest);
 		});
 		assertEquals("'entity': <PurchaseOrder>, 'code': <code>", exception.getMessage());
 	}

@@ -1,5 +1,6 @@
 package it.pdv.servicedomain.servicetemplate.domain.model;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import it.pdv.servicedomain.servicetemplate.domain.ValidationUtil;
@@ -7,11 +8,13 @@ import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityExce
 
 public class PurchaseOrder extends DomainEntity {
 	public enum Status {
-		DRAFT, ORDERED, RECEIVED, CLOSED
+		DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED
 	}
 	private String code;
 	private Status status;
 	private String customer;
+	private String product;
+	private BigDecimal amount;
 	private Instant createdAt;
 	private Instant orderedAt;
 	private Instant expectedDeliveryAt;
@@ -21,6 +24,7 @@ public class PurchaseOrder extends DomainEntity {
 		this.customer = customer;
 		this.createdAt = createdAt;
 		this.status = status;
+		this.amount = BigDecimal.ZERO;
 	}
 	public String getCode() {
 		return code;
@@ -33,6 +37,18 @@ public class PurchaseOrder extends DomainEntity {
 	}
 	public String getCustomer() {
 		return customer;
+	}
+	public String getProduct() {
+		return product;
+	}
+	public void setProduct(String product) {
+		this.product = product;
+	}
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 	public Instant getOrderedAt() {
 		return orderedAt;
@@ -59,6 +75,12 @@ public class PurchaseOrder extends DomainEntity {
 		}
 		if(ValidationUtil.isBlank(getCustomer())) {
 			throw new InvalidDomainEntityException(this.getClass(), getCode(), "customer is not blank");
+		}
+		if(getAmount() == null) {
+			throw new InvalidDomainEntityException(this.getClass(), getCode(), "amount is not null");
+		}
+		if(getAmount().signum() == -1) {
+			throw new InvalidDomainEntityException(this.getClass(), getCode(), "amount is not negative");
 		}
 		if(getCreatedAt() == null) {
 			throw new InvalidDomainEntityException(this.getClass(), getCode(), "createdAt is not null");

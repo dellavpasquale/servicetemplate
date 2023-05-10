@@ -12,26 +12,34 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
+import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
+import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
+import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderGetRequest;
 
 class RetrievePrescriptionTest {
 	private PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private RetrievePurchaseOrderService retrievePurchaseOrderService;
+	private AccessControlService accessControlService;
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		purchaseOrderPersistenceService = mock(PurchaseOrderPersistenceService.class);
-		retrievePurchaseOrderService = new RetrievePurchaseOrderService(purchaseOrderPersistenceService);
+		accessControlService = mock(AccessControlService.class);
+		retrievePurchaseOrderService = new RetrievePurchaseOrderService(purchaseOrderPersistenceService, accessControlService);
 	}
 	
 	@Test
-	void testGetPurchaseOrderFounded() throws InvalidDomainEntityException, DomainEntityNotFoundException {
+	void testGetPurchaseOrderFounded() throws InvalidDomainEntityException, DomainEntityNotFoundException, AccessDeniedException {
 		givenThereIsPurchaseOrderWithCode("code", Status.DRAFT, "customer");
-		PurchaseOrder purchaseOrder = retrievePurchaseOrderService.getPurchaseOrder("code");
+		
+		PurchaseOrderGetRequest purchaseOrderGetRequest = new PurchaseOrderGetRequest();
+		purchaseOrderGetRequest.setCode("code");
+		PurchaseOrder purchaseOrder = retrievePurchaseOrderService.getPurchaseOrder(purchaseOrderGetRequest);
 		assertNotNull(purchaseOrder);
 		assertEquals("code", purchaseOrder.getCode());
 	}
@@ -40,7 +48,9 @@ class RetrievePrescriptionTest {
 	void testGetPurchaseOrderNotFound() throws InvalidDomainEntityException {
 		givenThereIsNoPurchaseOrder();
 		Exception exception = Assertions.assertThrows(DomainEntityNotFoundException.class, () -> {
-			retrievePurchaseOrderService.getPurchaseOrder("code");
+			PurchaseOrderGetRequest purchaseOrderGetRequest = new PurchaseOrderGetRequest();
+			purchaseOrderGetRequest.setCode("code");
+			retrievePurchaseOrderService.getPurchaseOrder(purchaseOrderGetRequest);
 		});
 		assertEquals("'entity': <PurchaseOrder>, 'code': <code>", exception.getMessage());
 	}
@@ -58,9 +68,13 @@ class RetrievePrescriptionTest {
 			throws InvalidDomainEntityException {
 		PurchaseOrder purchaseOrder = new PurchaseOrder(code, status, customer, Instant.now());
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
+		when(accessControlService.hasPermission(any())).thenReturn(true);
+		when(accessControlService.isLoggedUser(any())).thenReturn(true);
 	}
 
 	private void givenThereIsNoPurchaseOrder() throws InvalidDomainEntityException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(null);
+		when(accessControlService.hasPermission(any())).thenReturn(true);
+		when(accessControlService.isLoggedUser(any())).thenReturn(true);
 	}
 }

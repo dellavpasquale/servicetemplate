@@ -12,7 +12,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>servicetemplate-configuration</module>
+		<module>servicetemplate-restapi</module>
 		<module>servicetemplate-domain</module>
-		<module>servicetemplate-orm</module>
+		<module>servicetemplate-persistence</module>
 	</modules>
 </project>

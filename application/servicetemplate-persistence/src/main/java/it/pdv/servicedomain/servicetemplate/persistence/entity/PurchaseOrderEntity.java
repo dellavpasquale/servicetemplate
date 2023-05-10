@@ -1,5 +1,6 @@
 package it.pdv.servicedomain.servicetemplate.persistence.entity;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import jakarta.persistence.Entity;
@@ -16,11 +17,13 @@ import lombok.Data;
 public class PurchaseOrderEntity extends ORMEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PURCHASE_ORDER_ID_SEQ")
+	@GeneratedValue
 	private Long id;
 	private String code;
 	private String status;
 	private String customer;
+	private String product;
+	private BigDecimal amount;
 	private Instant orderedAt;
 	private Instant expectedDeliveryAt;
 	

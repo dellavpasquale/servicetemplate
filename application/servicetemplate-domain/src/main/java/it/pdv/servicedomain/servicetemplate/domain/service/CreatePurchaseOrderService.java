@@ -4,12 +4,13 @@ import java.time.Instant;
 import java.util.UUID;
 
 import it.pdv.servicedomain.servicetemplate.domain.ValidationUtil;
-import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderNotificationService;
-import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
+import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
+import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderRequest;
 
 public class CreatePurchaseOrderService {
 	private PurchaseOrderPersistenceService purchaseOrderPersistenceService;
@@ -20,8 +21,8 @@ public class CreatePurchaseOrderService {
 		this.purchaseOrderNotificationService = purchaseOrderNotificationService;
 	}
 	
-	public PurchaseOrder createPurchaseOrder(String customer, String code) throws InvalidDomainEntityException, DomainEntityAlreadyExistsException {
-		PurchaseOrder purchaseOrder = buildPurchaseOrder(customer, code);
+	public PurchaseOrder createPurchaseOrder(PurchaseOrderRequest purchaseOrderRequest) throws InvalidDomainEntityException, DomainEntityAlreadyExistsException {
+		PurchaseOrder purchaseOrder = buildPurchaseOrder(purchaseOrderRequest);
 		purchaseOrder.validate();
 		boolean purchaseOrderCreated = purchaseOrderPersistenceService.createPurchaseOrder(purchaseOrder);
 		if(!purchaseOrderCreated) {
@@ -31,9 +32,16 @@ public class CreatePurchaseOrderService {
 		return purchaseOrder;
 	}
 
-	private PurchaseOrder buildPurchaseOrder(String customer, String code) {
-		String effectiveCode = ValidationUtil.isNotBlank(code)? code: UUID.randomUUID().toString();
-		return new PurchaseOrder(effectiveCode, Status.DRAFT, customer, Instant.now());
+	private PurchaseOrder buildPurchaseOrder(PurchaseOrderRequest purchaseOrderRequest) {
+		String code = UUID.randomUUID().toString();
+		String customer = null;
+		if(purchaseOrderRequest != null) {
+			if(ValidationUtil.isNotBlank(purchaseOrderRequest.getCode())) {
+				code = purchaseOrderRequest.getCode();
+			} 
+			customer = purchaseOrderRequest.getCustomer();
+		}
+		return new PurchaseOrder(code, Status.DRAFT, customer, Instant.now());
 	}
 
 }

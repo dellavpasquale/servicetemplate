@@ -16,9 +16,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.pdv.servicedomain.servicetemplate.domain.adapter.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.persistence.repository.PurchaseOrderRepository;
 import it.pdv.servicedomain.servicetemplate.persistence.service.PurchaseOrderPersistenceServiceImpl;
 
@@ -72,7 +72,7 @@ class PurchaseOrderPersistenceServiceImplTest {
 	void testUpdatePurchaseOrder() {
 		purchaseOrder.setOrderedAt(Instant.now());
 		purchaseOrder.setExpectedDeliveryAt(Instant.now());
-		purchaseOrder.setStatus(Status.CLOSED);
+		purchaseOrder.setStatus(Status.DELIVERED);
 		boolean result = purchaseOrderPersistenceService.updatePurcahseOrder(purchaseOrder);
 		
 		assertTrue(result);
@@ -87,7 +87,7 @@ class PurchaseOrderPersistenceServiceImplTest {
 	
 	@Test
 	void testUpdateNoPurchaseOrder() {
-		purchaseOrder = new PurchaseOrder("updatecode", Status.CLOSED, "customer", Instant.now());
+		purchaseOrder = new PurchaseOrder("updatecode", Status.DELIVERED, "customer", Instant.now());
 		purchaseOrder.setOrderedAt(Instant.now());
 		purchaseOrder.setExpectedDeliveryAt(Instant.now());
 		boolean result = purchaseOrderPersistenceService.updatePurcahseOrder(purchaseOrder);

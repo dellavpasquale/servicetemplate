@@ -14,32 +14,6 @@ tags:
     description: Everything about PurchaseOrders
 paths:
   /purchaseorder:
-    put:
-      tags:
-        - purchaseorder
-      summary: Update an existing PurchaseOrder
-      description: Update an existing pet by Id
-      operationId: updatePet
-      requestBody:
-        description: Update an existent pet in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PurchaseOrder'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrder'          
-        '400':
-          description: Invalid request supplied
-        '404':
-          description: PurchaseOrder not found
-        '500':
-          description: Internal error
     post:
       tags:
         - purchaseorder
@@ -51,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PurchaseOrder'
+              $ref: '#/components/schemas/PurchaseOrderRequest'
         required: true
       responses:
         '200':
@@ -62,8 +36,54 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'          
         '400':
           description: Invalid request supplied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '500':
           description: Internal error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      tags:
+        - purchaseorder
+      summary: Update an existing PurchaseOrder
+      description: Update an existing PurchaseOrder by Id
+      operationId: updatePurchaseOrder
+      requestBody:
+        description: Update an existing PurchaseOrder
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'          
+        '400':
+          description: Invalid request supplied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: PurchaseOrder not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '500':
+          description: Internal error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /purchaseorder/{purchaseorderCode}:
     get:
       tags:
@@ -77,8 +97,10 @@ paths:
           description: PurchaseOrder code
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            minLength: 8
+            maxLength: 40
+            example: e9dc6700-9842-40db-9e60-9e7044a3791a
       responses:
         '200':
           description: successful operation
@@ -88,12 +110,114 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrder'          
         '400':
           description: Invalid request supplied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '404':
           description: PurchaseOrder not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '500':
           description: Internal error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /purchaseorder/{purchaseorderCode}/transition:
+    post:
+      tags:
+        - purchaseorder
+      summary: Create a new status transition
+      description: Create a new status transition
+      operationId: createPurchaseOrderTransition
+      parameters:
+        - name: purchaseorderCode
+          in: path
+          description: PurchaseOrder code
+          required: true
+          schema:
+            type: string
+            minLength: 8
+            maxLength: 40
+            example: e9dc6700-9842-40db-9e60-9e7044a3791a
+      requestBody:
+        description: Create a new status transition
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderTransitionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'          
+        '400':
+          description: Invalid request supplied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '500':
+          description: Internal error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
 components:
   schemas:
+    PurchaseOrderRequest:
+      required:
+        - customer
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 8
+          maxLength: 40
+          example: e9dc6700-9842-40db-9e60-9e7044a3791a
+        customer:
+          type: string
+          minLength: 2
+          maxLength: 56
+          example: John Mitch
+    PurchaseOrderUpdateRequest:
+      required:
+        - code
+        - product
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 8
+          maxLength: 40
+          example: e9dc6700-9842-40db-9e60-9e7044a3791a
+        product:
+          type: string
+          minLength: 2
+          maxLength: 56
+          example: Water
+        amount:
+          type: number
+          format: decimal
+          example: 99.95
+    PurchaseOrderTransitionRequest:
+      required:
+        - transition
+      type: object
+      properties:
+        transition:
+          type: string
+          enum: [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER]
+          example: SEND
+        expectedDeliveryAt:
+          type: string
+          format: date-time
     PurchaseOrder:
       required:
         - code
@@ -108,13 +232,22 @@ components:
           example: e9dc6700-9842-40db-9e60-9e7044a3791a
         status:
           type: string
-          enum: [DRAFT, ORDERED, RECEIVED, CLOSED]
+          enum: [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED]
           example: DRAFT
         customer:
           type: string
           minLength: 2
           maxLength: 56
           example: John Mitch
+        product:
+          type: string
+          minLength: 2
+          maxLength: 56
+          example: Water
+        amount:
+          type: number
+          format: decimal
+          example: 99.95
         createdAt:
           type: string
           format: date-time
@@ -124,3 +257,48 @@ components:
         expectedDeliveryAt:
           type: string
           format: date-time
+    Problem:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: >
+            A URI reference that uniquely identifies the problem type only in the
+            context of the provided API. Opposed to the specification in RFC-7807,
+            it is neither recommended to be dereferenceable and point to a
+            human-readable documentation nor globally unique for the problem type.
+          default: 'about:blank'
+          example: '/some/uri-reference'
+        title:
+          type: string
+          description: >
+            A short summary of the problem type. Written in English and readable
+            for engineers, usually not suited for non technical stakeholders and
+            not localized.
+          example: some title for the error situation
+        status:
+          type: integer
+          format: int32
+          description: >
+            The HTTP status code generated by the origin server for this occurrence
+            of the problem.
+          minimum: 100
+          maximum: 600
+          exclusiveMaximum: true
+        detail:
+          type: string
+          description: >
+            A human readable explanation specific to this occurrence of the
+            problem that is helpful to locate the problem and give advice on how
+            to proceed. Written in English and readable for engineers, usually not
+            suited for non technical stakeholders and not localized.
+          example: some description for the error situation
+        instance:
+          type: string
+          format: uri-reference
+          description: >
+            A URI reference that identifies the specific occurrence of the problem,
+            e.g. by adding a fragment identifier or sub-path to the problem type.
+            May be used to locate the root of this problem in the source code.
+          example: '/some/uri-reference#specific-occurrence-context'
