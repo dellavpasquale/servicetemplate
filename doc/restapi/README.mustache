@@ -89,7 +89,7 @@
 #### Responses
 
 | Status Code | Message | Return Type | Example |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 {{#responses}}
 | {{code}} | {{message}} | {{{dataType}}} | {{#examples}} {{{contentType}}} {{example}} {{/examples}} |
 {{/responses}}
@@ -139,7 +139,7 @@ where:
 {{/enumVars}}
 {{/allowableValues}} {{/isEnum}}
 {{^isEnum}}| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#vars}}{{>param}} {{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{.}}}{{/dataFormat}} | {{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}

@@ -49,7 +49,7 @@ This is the API to manage PurchaseOrder objects
 #### Responses
 
 | Status Code | Message | Return Type | Example |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | 200 | Successful operation | PurchaseOrder |  |
 | 400 | Invalid request supplied | Problem |  |
 | 500 | Internal error | Problem |  |
@@ -125,7 +125,7 @@ curl -X  \
 #### Responses
 
 | Status Code | Message | Return Type | Example |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | 200 | Successful operation | PurchaseOrder |  |
 | 400 | Invalid request supplied | Problem |  |
 | 500 | Internal error | Problem |  |
@@ -196,7 +196,7 @@ where:
 #### Responses
 
 | Status Code | Message | Return Type | Example |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | 200 | successful operation | PurchaseOrder |  |
 | 400 | Invalid request supplied | Problem |  |
 | 404 | PurchaseOrder not found | Problem |  |
@@ -262,7 +262,7 @@ where:
 #### Responses
 
 | Status Code | Message | Return Type | Example |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | 200 | Successful operation | PurchaseOrder |  |
 | 400 | Invalid request supplied | Problem |  |
 | 404 | PurchaseOrder not found | Problem |  |
@@ -309,7 +309,7 @@ curl -X  \
 
 
 | Field Name | Description | Type | Required | Default | Pattern | Enum | Test
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 |type | A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.  | String | no | about:blank |  |  |
  </span> A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.
  format: uri-reference | |title | A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String | no | null |  |  |
@@ -327,7 +327,7 @@ curl -X  \
 
 
 | Field Name | Description | Type | Required | Default | Pattern | Enum | Test
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 |code |  | String | yes | null | [StringLength(40, MinimumLength=8)] |  |
  </span>   | |status |  | String | yes | null |  | [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED] |
  </span>   | |customer |  | String | yes | null | [StringLength(56, MinimumLength=2)] |  |
@@ -343,7 +343,7 @@ curl -X  \
 
 
 | Field Name | Description | Type | Required | Default | Pattern | Enum | Test
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 |code |  | String | no | null | [StringLength(40, MinimumLength=8)] |  |
  </span>   | |customer |  | String | yes | null | [StringLength(56, MinimumLength=2)] |  |
  </span>   |  
@@ -353,7 +353,7 @@ curl -X  \
 
 
 | Field Name | Description | Type | Required | Default | Pattern | Enum | Test
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 |transition |  | String | yes | null |  | [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER] |
  </span>   | |expectedDeliveryAt |  | Date | no | null |  |  |
  </span>  format: date-time |  
@@ -363,7 +363,7 @@ curl -X  \
 
 
 | Field Name | Description | Type | Required | Default | Pattern | Enum | Test
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 |code |  | String | yes | null | [StringLength(40, MinimumLength=8)] |  |
  </span>   | |product |  | String | yes | null | [StringLength(56, MinimumLength=2)] |  |
  </span>   | |amount |  | BigDecimal | no | null |  |  |
