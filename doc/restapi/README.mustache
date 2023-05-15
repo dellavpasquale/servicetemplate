@@ -1,9 +1,23 @@
-# {{{appDescription}}}  
+# {{{appName}}}
 
-# Info 
+{{{appDescription}}}  
 
+## Info 
+
+{{#infoUrl}}*More information:* {{{infoUrl}}} {{/infoUrl}}  
+{{#infoEmail}}*Contact Info:* {{{infoEmail}}} {{/infoEmail}}
 {{#version}}*Version:* {{{.}}}{{/version}}  
-{{#basePathWithoutHost}}BasePath:{{.}}{{/basePathWithoutHost}}  
+{{#basePathWithoutHost}}*BasePath:* {{.}}{{/basePathWithoutHost}}  
+{{{licenseInfo}}}  
+{{{licenseUrl}}}  
+
+## Access
+
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}  
+{{/authMethods}}
+{{/hasAuthMethods}}
 
 ## Endpoints
 
@@ -35,9 +49,24 @@
 ##### Body Parameter
 
 | Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- |
 {{#bodyParams}}{{>param}}{{/bodyParams}}
 {{/hasBodyParam}}
+
+{{#hasFormParams}}
+
+##### Form Parameter
+
+| Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+{{#formParams}}{{>param}}{{/formParams}}
+{{/hasFormParams}}
+
+##### Return type
+{{#returnType}}
+{{#hasReference}}{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<a href="#{{returnBaseType}}">{{returnBaseType}}</a>{{^returnSimpleType}}]{{/returnSimpleType}}{{/hasReference}}
+{{^hasReference}}{{returnType}}{{/hasReference}}
+{{/returnType}}
 
 {{#hasHeaderParams}}
 
@@ -59,10 +88,10 @@
 
 #### Responses
 
-| Status Code | Message | Return Type |
+| Status Code | Message | Return Type | Example |
 | --- | --- | --- |
 {{#responses}}
-| {{code}} | {{message}} | {{{dataType}}} |
+| {{code}} | {{message}} | {{{dataType}}} | {{#examples}} {{{contentType}}} {{example}} {{/examples}} |
 {{/responses}}
 
 #### Example
@@ -109,8 +138,8 @@ where:
 {{#allowableValues}} {{#enumVars}} | {{{name}}} | {{{value}}} | {{{enumDescription}}} |
 {{/enumVars}}
 {{/allowableValues}} {{/isEnum}}
-{{^isEnum}}| Field Name | Description | Type | Required | Default | Pattern | Enum |
+{{^isEnum}}| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
 | --- | --- | --- | --- | --- | --- | --- |
-{{#vars}}{{>param}}{{/vars}} {{/isEnum}}
+{{#vars}}{{>param}} {{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{.}}}{{/dataFormat}} | {{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}
