@@ -1,0 +1,72 @@
+{{{appDescription}}}
+{{#version}}*Version:* {{{.}}}{{/version}}
+----
+
+h2. Endpoints
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+h3. {{nickname}}
+
+{{#summary}}*Summary:* {{.}}{{/summary}}
+*Description:* {{notes}}{{^notes}}*No Description*{{/notes}}
+
+|| HttpMethod | {{httpMethod}}|
+|| Protocol | {{scheme}}|
+|| Path | {{path}}|
+|| Base Path | {{basePath}} |
+{{#hasProduces}}|| Produces | {{#produces}}{{mediaType}}{{/produces}}|{{/hasProduces}}
+
+
+h4. Parameters
+
+    {{#hasPathParams}}
+h5. Path Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        {{#pathParams}}{{>param}}{{/pathParams}}
+    {{/hasPathParams}}
+
+    {{#hasBodyParam}}
+h5. Body Parameter
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        {{#bodyParams}}{{>param}}{{/bodyParams}}
+    {{/hasBodyParam}}
+
+    {{#hasHeaderParams}}
+h5. Header Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        {{#headerParams}}{{>param}}{{/headerParams}}
+    {{/hasHeaderParams}}
+
+    {{#hasQueryParams}}
+h5. Query Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        {{#queryParams}}{{>param}}{{/queryParams}}
+    {{/hasQueryParams}}
+
+h4. Responses
+    ||Status Code||Message||Return Type||
+    {{#responses}}
+        |{{code}}|{{message}}|{{{dataType}}}&nbsp;|
+    {{/responses}}
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+h2. Models
+
+{{#models}}
+{{#model}}
+
+h3. {{classname}}
+{{{description}}}
+{{#isEnum}} ||Name||Value||Description||
+{{#allowableValues}} {{#enumVars}} |{{{name}}} |{{{value}}} |{{{enumDescription}}} |
+{{/enumVars}}
+{{/allowableValues}} {{/isEnum}}
+{{^isEnum}}||Field Name||Required||Type||Description||Enum||
+{{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{{{dataType}}}|{{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} |
+{{/vars}} {{/isEnum}}
+{{/model}}
+{{/models}}
+
