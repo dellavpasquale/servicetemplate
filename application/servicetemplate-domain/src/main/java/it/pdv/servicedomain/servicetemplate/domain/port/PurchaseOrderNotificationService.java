@@ -1,6 +1,6 @@
 package it.pdv.servicedomain.servicetemplate.domain.port;
 
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 
 public interface PurchaseOrderNotificationService {
 	

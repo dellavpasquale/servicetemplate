@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Assertions;
@@ -23,16 +22,16 @@ import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.usecase.RetrievePurchaseOrderUseCase;
-import it.pdv.servicedomain.servicetemplate.domain.usecase.UpdatePurchaseOrderUseCase;
-import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderEditRequest;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.UpdateDeliveryUseCase;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.DeliveryEditRequest;
 
-class UpdatePurchaseOrderTest {
+class UpdateDeliveryTest {
 
 	private RetrievePurchaseOrderUseCase retrievePurchaseOrderUseCase;
 	private AccessControlService accessControlService;
 	private PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private PurchaseOrderNotificationService purchaseOrderNotificationService;
-	private UpdatePurchaseOrderUseCase updatePurchaseOrderUseCase;
+	private UpdateDeliveryUseCase updateDeliveryUseCase;
 	private PurchaseOrder purchaseOrder;
 
 	@BeforeEach
@@ -41,66 +40,64 @@ class UpdatePurchaseOrderTest {
 		purchaseOrderPersistenceService = mock(PurchaseOrderPersistenceService.class);
 		purchaseOrderNotificationService = mock(PurchaseOrderNotificationService.class);
 		accessControlService = mock(AccessControlService.class);
-		updatePurchaseOrderUseCase = new UpdatePurchaseOrderUseCase(retrievePurchaseOrderUseCase, accessControlService, purchaseOrderPersistenceService, purchaseOrderNotificationService);
+		updateDeliveryUseCase = new UpdateDeliveryUseCase(retrievePurchaseOrderUseCase, accessControlService, purchaseOrderPersistenceService, purchaseOrderNotificationService);
 		
-		purchaseOrder = new PurchaseOrder("code", Status.DRAFT, "customer", Instant.now());
-	}
-
-	@Test
-	void testOrder() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
-		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
-		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
-		when(accessControlService.isLoggedUser(any())).thenReturn(true);
-
-		PurchaseOrderEditRequest purchaseOrderEditRequest = new PurchaseOrderEditRequest();
-		purchaseOrderEditRequest.setCode("code");
-		purchaseOrderEditRequest.setProduct("product");
-		purchaseOrderEditRequest.setAmount(BigDecimal.TEN);
-		purchaseOrder = updatePurchaseOrderUseCase.update(purchaseOrderEditRequest);
-		assertEquals(BigDecimal.TEN, purchaseOrder.getAmount());
-		assertEquals("product", purchaseOrder.getProduct());
-	}
-	
-	@Test
-	void testOrderPurchaseOrderAlreadyOrdered() throws DomainEntityNotFoundException, AccessDeniedException {
-		purchaseOrder.setProduct("product");
-		purchaseOrder.setStatus(Status.ORDERED);
+		purchaseOrder = new PurchaseOrder("code", Status.ORDERED, "customer", Instant.now());
 		purchaseOrder.setOrderedAt(Instant.now());
 		purchaseOrder.setExpectedDeliveryAt(Instant.now());
+		purchaseOrder.setProduct("product");
+	}
+
+	@Test
+	void testUpdateDelivery() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
-		when(accessControlService.isLoggedUser(any())).thenReturn(true);
-
-		PurchaseOrderEditRequest purchaseOrderEditRequest = new PurchaseOrderEditRequest();
-		purchaseOrderEditRequest.setCode("code");
-		purchaseOrderEditRequest.setProduct("product");
-		purchaseOrderEditRequest.setAmount(BigDecimal.TEN);
-
+		when(accessControlService.hasPermission(any())).thenReturn(true);
+		
+		DeliveryEditRequest deliveryEditRequest = new DeliveryEditRequest();
+		deliveryEditRequest.setCode("code");
+		deliveryEditRequest.setStatus(Status.IN_PROGRESS);
+		purchaseOrder = updateDeliveryUseCase.updateDelivery(deliveryEditRequest);
+		assertEquals(Status.IN_PROGRESS, purchaseOrder.getStatus());
+	}
+	
+	@Test
+	void testUpdateDeliveryInvalidOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
+		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
+		when(accessControlService.hasPermission(any())).thenReturn(true);
+		purchaseOrder.setStatus(Status.CANCELLED);
+		
+		DeliveryEditRequest deliveryEditRequest = new DeliveryEditRequest();
+		deliveryEditRequest.setCode("code");
+		deliveryEditRequest.setStatus(Status.IN_PROGRESS);
+		
 		Exception exception = Assertions.assertThrows(InvalidOperationException.class, () -> {
-			purchaseOrder = updatePurchaseOrderUseCase.update(purchaseOrderEditRequest);
+			updateDeliveryUseCase.updateDelivery(deliveryEditRequest);
 		});
 		assertEquals(
-				"'entity': <PurchaseOrder>, 'code': <code>, 'operation': <UPDATE>, 'status': <ORDERED>, 'expected': <DRAFT>",
+				"'entity': <PurchaseOrder>, 'code': <code>, 'operation': <UPDATE DELIVERY>, 'status': <CANCELLED>, 'expected': <not in (draft, cancelled)>",
 				exception.getMessage());
 	}
 	
 	@Test
-	void testOrderPurchaseOrderForbidden() throws DomainEntityNotFoundException, AccessDeniedException {
+	void testUpdateDeliveryForbiddenOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
-		when(accessControlService.isLoggedUser(any())).thenReturn(false);
-
-		PurchaseOrderEditRequest purchaseOrderEditRequest = new PurchaseOrderEditRequest();
-		purchaseOrderEditRequest.setCode("code");
-		purchaseOrderEditRequest.setProduct("product");
-		purchaseOrderEditRequest.setAmount(BigDecimal.TEN);
-
+		when(accessControlService.hasPermission(any())).thenReturn(false);
+		
+		DeliveryEditRequest deliveryEditRequest = new DeliveryEditRequest();
+		deliveryEditRequest.setCode("code");
+		deliveryEditRequest.setStatus(Status.IN_PROGRESS);
+		
 		Exception exception = Assertions.assertThrows(ForbiddenOperationException.class, () -> {
-			purchaseOrder = updatePurchaseOrderUseCase.update(purchaseOrderEditRequest);
+			updateDeliveryUseCase.updateDelivery(deliveryEditRequest);
 		});
 		assertEquals(
-				"'entity': <PurchaseOrder>, 'code': <code>, 'operation': <UPDATE>",
+				"'entity': <PurchaseOrder>, 'code': <code>, 'operation': <UPDATE DELIVERY>",
 				exception.getMessage());
 	}
+
+	
 
 }

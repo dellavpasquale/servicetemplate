@@ -11,34 +11,40 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderRequest;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.CreatePurchaseOrderUseCase;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderRequest;
 
 class CreatePurchaseOrderTest {
 
 	private PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private PurchaseOrderNotificationService purchaseOrderNotificationService;
-	private CreatePurchaseOrderService createPurchaseOrderService;
+	private CreatePurchaseOrderUseCase createPurchaseOrderUseCase;
+	private AccessControlService accessControlService;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 		purchaseOrderPersistenceService = mock(PurchaseOrderPersistenceService.class);
 		purchaseOrderNotificationService = mock(PurchaseOrderNotificationService.class);
-		createPurchaseOrderService = new CreatePurchaseOrderService(purchaseOrderPersistenceService, purchaseOrderNotificationService);
+		accessControlService = mock(AccessControlService.class);
+		createPurchaseOrderUseCase = new CreatePurchaseOrderUseCase(purchaseOrderPersistenceService, purchaseOrderNotificationService, accessControlService);
 	}
 
 	@Test
-	void testCreatePurchaseOrder() throws InvalidDomainEntityException, DomainEntityAlreadyExistsException {
+	void testCreatePurchaseOrder() throws InvalidDomainEntityException, DomainEntityAlreadyExistsException, ForbiddenOperationException {
 		when(purchaseOrderPersistenceService.createPurchaseOrder(any())).thenReturn(true);
+		when(accessControlService.hasPermission(any())).thenReturn(true);
 
 		PurchaseOrderRequest purchaseOrderRequest = new PurchaseOrderRequest();
 		purchaseOrderRequest.setCustomer("customer");
-		PurchaseOrder purchaseOrder = createPurchaseOrderService.createPurchaseOrder(purchaseOrderRequest);
+		PurchaseOrder purchaseOrder = createPurchaseOrderUseCase.createPurchaseOrder(purchaseOrderRequest);
 		assertNotNull(purchaseOrder);
 		assertEquals("customer", purchaseOrder.getCustomer());
 		assertEquals(Status.DRAFT, purchaseOrder.getStatus());
@@ -48,20 +54,33 @@ class CreatePurchaseOrderTest {
 	@Test
 	void tesPurchaseOrderInvalid() {
 		Exception exception = Assertions.assertThrows(InvalidDomainEntityException.class, () -> {
-			createPurchaseOrderService.createPurchaseOrder(null);
+			createPurchaseOrderUseCase.createPurchaseOrder(null);
 		});
 		assertTrue(exception.getMessage().endsWith("'customer is not blank': <false>"));
+	}
+	
+	@Test
+	void tesForbiddenOperation() {
+		when(accessControlService.hasPermission(any())).thenReturn(false);
+		Exception exception = Assertions.assertThrows(ForbiddenOperationException.class, () -> {
+			PurchaseOrderRequest purchaseOrderRequest = new PurchaseOrderRequest();
+			purchaseOrderRequest.setCode("code");
+			purchaseOrderRequest.setCustomer("customer");
+			createPurchaseOrderUseCase.createPurchaseOrder(purchaseOrderRequest);
+		});
+		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'operation': <CREATE>", exception.getMessage());
 	}
 
 	@Test
 	void tesPurchaseOrderAlreadyExists() {
 		when(purchaseOrderPersistenceService.createPurchaseOrder(any())).thenReturn(false);
+		when(accessControlService.hasPermission(any())).thenReturn(true);
 
 		PurchaseOrderRequest purchaseOrderRequest = new PurchaseOrderRequest();
 		purchaseOrderRequest.setCode("code");
 		purchaseOrderRequest.setCustomer("customer");
 		Exception exception = Assertions.assertThrows(DomainEntityAlreadyExistsException.class, () -> {
-			createPurchaseOrderService.createPurchaseOrder(purchaseOrderRequest);
+			createPurchaseOrderUseCase.createPurchaseOrder(purchaseOrderRequest);
 		});
 		assertEquals("'entity': <PurchaseOrder>, 'code': <code>", exception.getMessage());
 	}

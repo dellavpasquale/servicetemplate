@@ -3,9 +3,9 @@ package it.pdv.servicedomain.servicetemplate.domain.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.DeliveryEditRequest;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderEditRequest;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.DeliveryEditRequest;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderEditRequest;
 
 @Mapper
 public interface PurchaseOrderMapper {

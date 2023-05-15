@@ -11,54 +11,56 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidOperationException;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderGetRequest;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.ConfirmPurchaseOrderUseCase;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.RetrievePurchaseOrderUseCase;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderGetRequest;
 
 class ConfirmPurchaseOrderTest {
 
-	private RetrievePurchaseOrderService retrievePurchaseOrderService;
+	private RetrievePurchaseOrderUseCase retrievePurchaseOrderUseCase;
 	private AccessControlService accessControlService;
 	private PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private PurchaseOrderNotificationService purchaseOrderNotificationService;
-	private ConfirmPurchaseOrderService confirmPurchaseOrderService;
+	private ConfirmPurchaseOrderUseCase confirmPurchaseOrderUseCase;
 	private PurchaseOrder purchaseOrder;
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		retrievePurchaseOrderService = mock(RetrievePurchaseOrderService.class);
+		retrievePurchaseOrderUseCase = mock(RetrievePurchaseOrderUseCase.class);
 		purchaseOrderPersistenceService = mock(PurchaseOrderPersistenceService.class);
 		purchaseOrderNotificationService = mock(PurchaseOrderNotificationService.class);
 		accessControlService = mock(AccessControlService.class);
-		confirmPurchaseOrderService = new ConfirmPurchaseOrderService(retrievePurchaseOrderService, accessControlService, purchaseOrderPersistenceService, purchaseOrderNotificationService);
+		confirmPurchaseOrderUseCase = new ConfirmPurchaseOrderUseCase(retrievePurchaseOrderUseCase, accessControlService, purchaseOrderPersistenceService, purchaseOrderNotificationService);
 		
 		purchaseOrder = new PurchaseOrder("code", Status.DRAFT, "customer", Instant.now());
 	}
 
 	@Test
 	void testOrder() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
-		when(retrievePurchaseOrderService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
+		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
 		purchaseOrder.setProduct("product");
 		
 		PurchaseOrderGetRequest purchaseOrderGetRequest = new PurchaseOrderGetRequest();
 		purchaseOrderGetRequest.setCode("code");
-		purchaseOrder = confirmPurchaseOrderService.confirm(purchaseOrderGetRequest);
+		purchaseOrder = confirmPurchaseOrderUseCase.confirm(purchaseOrderGetRequest);
 		assertEquals(Status.ORDERED, purchaseOrder.getStatus());
 	}
 
 	@Test
 	void testOrderPurchaseOrderAlreadyOrdered() throws DomainEntityNotFoundException, AccessDeniedException {
-		when(retrievePurchaseOrderService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
+		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
 		purchaseOrder.setProduct("product");
@@ -69,7 +71,7 @@ class ConfirmPurchaseOrderTest {
 		Exception exception = Assertions.assertThrows(InvalidOperationException.class, () -> {
 			PurchaseOrderGetRequest purchaseOrderGetRequest = new PurchaseOrderGetRequest();
 			purchaseOrderGetRequest.setCode("code");
-			purchaseOrder = confirmPurchaseOrderService.confirm(purchaseOrderGetRequest);
+			purchaseOrder = confirmPurchaseOrderUseCase.confirm(purchaseOrderGetRequest);
 		});
 		assertEquals(
 				"'entity': <PurchaseOrder>, 'code': <code>, 'operation': <CONFIRM>, 'status': <ORDERED>, 'expected': <DRAFT>",
@@ -78,14 +80,14 @@ class ConfirmPurchaseOrderTest {
 	
 	@Test
 	void testOrderPurchaseOrderWithoutProduct() throws DomainEntityNotFoundException, AccessDeniedException {
-		when(retrievePurchaseOrderService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
+		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
 
 		Exception exception = Assertions.assertThrows(InvalidOperationException.class, () -> {
 			PurchaseOrderGetRequest purchaseOrderGetRequest = new PurchaseOrderGetRequest();
 			purchaseOrderGetRequest.setCode("code");
-			purchaseOrder = confirmPurchaseOrderService.confirm(purchaseOrderGetRequest);
+			purchaseOrder = confirmPurchaseOrderUseCase.confirm(purchaseOrderGetRequest);
 		});
 		assertEquals(
 				"'entity': <PurchaseOrder>, 'code': <code>, 'operation': <CONFIRM>, 'product is not empty': <false>",

@@ -4,13 +4,15 @@ package it.pdv.servicedomain.servicetemplate.domain.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
 
 class PurchaseOrderTest {
 
@@ -54,6 +56,42 @@ class PurchaseOrderTest {
 			purchaseOrder.validate();
 		});
 		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'createdAt is not null': <false>", exception.getMessage());
+	}
+	@Test
+	void testPurchaseOrderAmountNull() throws InvalidDomainEntityException {
+		PurchaseOrder purchaseOrder = new PurchaseOrder("code", Status.DRAFT, "customer",  Instant.now());
+		purchaseOrder.setAmount(null);
+		Exception exception = Assertions.assertThrows(InvalidDomainEntityException.class, () -> {
+			purchaseOrder.validate();
+		});
+		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'amount is not null': <false>", exception.getMessage());
+	}
+	@Test
+	void testPurchaseOrderAmountNegative() throws InvalidDomainEntityException {
+		PurchaseOrder purchaseOrder = new PurchaseOrder("code", Status.DRAFT, "customer",  Instant.now());
+		purchaseOrder.setAmount(BigDecimal.valueOf(-10.5));
+		Exception exception = Assertions.assertThrows(InvalidDomainEntityException.class, () -> {
+			purchaseOrder.validate();
+		});
+		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'amount is not negative': <false>", exception.getMessage());
+	}
+	@Test
+	void testPurchaseOrderInvalidOrderedAt() throws InvalidDomainEntityException {
+		PurchaseOrder purchaseOrder = new PurchaseOrder("code", Status.DELIVERED, "customer",  Instant.now());
+		purchaseOrder.setExpectedDeliveryAt(Instant.now());
+		Exception exception = Assertions.assertThrows(InvalidDomainEntityException.class, () -> {
+			purchaseOrder.validate();
+		});
+		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'orderedAt is not null': <false>", exception.getMessage());
+	}
+	@Test
+	void testPurchaseOrderInvalidExpectedDeliveryAt() throws InvalidDomainEntityException {
+		PurchaseOrder purchaseOrder = new PurchaseOrder("code", Status.DELIVERED, "customer",  Instant.now());
+		purchaseOrder.setOrderedAt(Instant.now());
+		Exception exception = Assertions.assertThrows(InvalidDomainEntityException.class, () -> {
+			purchaseOrder.validate();
+		});
+		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'expectedDeliveryAt is not null': <false>", exception.getMessage());
 	}
 
 }

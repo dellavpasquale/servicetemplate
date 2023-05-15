@@ -1,8 +1,8 @@
 package it.pdv.servicedomain.servicetemplate.domain.error;
 
-import it.pdv.servicedomain.servicetemplate.domain.LoggingUtil;
-import it.pdv.servicedomain.servicetemplate.domain.ValidationUtil;
-import it.pdv.servicedomain.servicetemplate.domain.model.DomainEntity;
+import it.pdv.servicedomain.servicetemplate.domain.entity.DomainEntity;
+import it.pdv.servicedomain.servicetemplate.domain.util.LoggingUtil;
+import it.pdv.servicedomain.servicetemplate.domain.util.ValidationUtil;
 
 public abstract class DomainException extends Exception {
 
