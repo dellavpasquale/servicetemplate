@@ -3,6 +3,7 @@
 # Info 
 
 {{#version}}*Version:* {{{.}}}{{/version}}  
+{{#basePathWithoutHost}}BasePath:{{.}}{{/basePathWithoutHost}}  
 
 ## Endpoints
 
@@ -16,7 +17,6 @@
 **HttpMethod:** {{httpMethod}}  
 **Protocol:** {{scheme}}  
 **Path:** {{path}}  
-**Base Path:** {{basePath}}   
 {{#hasProduces}}**Produces:** {{#produces}}{{mediaType}}{{/produces}} {{/hasProduces}}   
 
 #### Parameters
@@ -35,7 +35,7 @@
 ##### Body Parameter
 
 | Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#bodyParams}}{{>param}}{{/bodyParams}}
 {{/hasBodyParam}}
 
@@ -53,24 +53,50 @@
 ##### Query Parameters
 
 | Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#queryParams}}{{>param}}{{/queryParams}}
 {{/hasQueryParams}}
 
 #### Responses
 
-| Status Code | Message | Return Type|
+| Status Code | Message | Return Type |
 | --- | --- | --- |
 {{#responses}}
-| {{code}} | {{message}} | {{{dataType}}}&nbsp; |
+| {{code}} | {{message}} | {{{dataType}}} |
 {{/responses}}
+
+#### Example
+
+##### Request
+
+```bash
+{{>curl}}
+```
+{{#hasPathParams}}
+where:  
+{{#pathParams}}
+{{=<% %>=}}
+ - `{<%baseName%>}` -> `<%example%>`
+<%={{ }}=%>
+{{/pathParams}}
+{{/hasPathParams}}
+
+##### Response
+
+{{#hasExamples}}
+{{#examples}}  
+```json
+{{{example}}}
+```
+{{/examples}}
+{{/hasExamples}}
 
 {{/operation}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
 
-## Models
+## Model
 
 {{#models}}
 {{#model}}
@@ -83,9 +109,8 @@
 {{#allowableValues}} {{#enumVars}} | {{{name}}} | {{{value}}} | {{{enumDescription}}} |
 {{/enumVars}}
 {{/allowableValues}} {{/isEnum}}
-{{^isEnum}}| Field Name | Required | Type | Description | Enum |
-| --- | --- | --- | --- | --- |
-{{#vars}} | {{baseName}} | {{#required}}(/){{/required}}{{^required}}(x){{/required}} | {{{dataType}}} | {{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} |
-{{/vars}} {{/isEnum}}
+{{^isEnum}}| Field Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+{{#vars}}{{>param}}{{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}
