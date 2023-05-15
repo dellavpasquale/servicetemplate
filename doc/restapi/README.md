@@ -1,181 +1,216 @@
-This is the API to manage PurchaseOrder objects
+# This is the API to manage PurchaseOrder objects
+
 *Version:* 1.0.0
+
 ----
 
-h2. Endpoints
+## Endpoints
 
-h3. createPurchaseOrder
+
+
+### createPurchaseOrder
 
 *Summary:* Create a new PurchaseOrder
 *Description:* Create a new PurchaseOrder
 
-|| HttpMethod | POST|
-|| Protocol | https|
-|| Path | /purchaseorder|
-|| Base Path | https://purchaseorder/api |
-|| Produces | application/jsonapplication/problem+json|
+| **HttpMethod** | POST |
+| **Protocol** | https |
+| **Path** | /purchaseorder |
+| **Base Path** | https://purchaseorder/api |
+| **Produces** | application/jsonapplication/problem+json | 
 
-
-h4. Parameters
-
-
-h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |PurchaseOrderRequest |Create a new PurchaseOrder | PurchaseOrderRequest | (/) | |  |  |
+#### Parameters
 
 
 
+##### Body Parameter
 
-h4. Responses
-    ||Status Code||Message||Return Type||
-        |200|Successful operation|PurchaseOrder&nbsp;|
-        |400|Invalid request supplied|Problem&nbsp;|
-        |500|Internal error|Problem&nbsp;|
+| Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderRequest |Create a new PurchaseOrder | PurchaseOrderRequest | (/) | |  |  |
 
 
-h3. createPurchaseOrderTransition
+
+
+#### Responses
+
+| Status Code | Message | Return Type|
+| --- | --- | --- |
+| 200 | Successful operation | PurchaseOrder&nbsp; |
+| 400 | Invalid request supplied | Problem&nbsp; |
+| 500 | Internal error | Problem&nbsp; |
+
+
+
+### createPurchaseOrderTransition
 
 *Summary:* Create a new status transition
 *Description:* Create a new status transition
 
-|| HttpMethod | POST|
-|| Protocol | https|
-|| Path | /purchaseorder/{purchaseorderCode}/transition|
-|| Base Path | https://purchaseorder/api |
-|| Produces | application/jsonapplication/problem+json|
+| **HttpMethod** | POST |
+| **Protocol** | https |
+| **Path** | /purchaseorder/{purchaseorderCode}/transition |
+| **Base Path** | https://purchaseorder/api |
+| **Produces** | application/jsonapplication/problem+json | 
+
+#### Parameters
 
 
-h4. Parameters
+##### Path Parameters
 
-h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |purchaseorderCode |PurchaseOrder code | String | (/) |null |  |  |
-
-
-h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |PurchaseOrderTransitionRequest |Create a new status transition | PurchaseOrderTransitionRequest | (/) | |  |  |
+| Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+|purchaseorderCode |PurchaseOrder code | String | (/) |null |  |  |
 
 
 
+##### Body Parameter
 
-h4. Responses
-    ||Status Code||Message||Return Type||
-        |200|Successful operation|PurchaseOrder&nbsp;|
-        |400|Invalid request supplied|Problem&nbsp;|
-        |500|Internal error|Problem&nbsp;|
+| Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderTransitionRequest |Create a new status transition | PurchaseOrderTransitionRequest | (/) | |  |  |
 
 
-h3. getPurchaseOrderByCode
+
+
+#### Responses
+
+| Status Code | Message | Return Type|
+| --- | --- | --- |
+| 200 | Successful operation | PurchaseOrder&nbsp; |
+| 400 | Invalid request supplied | Problem&nbsp; |
+| 500 | Internal error | Problem&nbsp; |
+
+
+
+### getPurchaseOrderByCode
 
 *Summary:* Find a PurchaseOrder
 *Description:* Find a Purchase Order by code
 
-|| HttpMethod | GET|
-|| Protocol | https|
-|| Path | /purchaseorder/{purchaseorderCode}|
-|| Base Path | https://purchaseorder/api |
-|| Produces | application/jsonapplication/problem+json|
+| **HttpMethod** | GET |
+| **Protocol** | https |
+| **Path** | /purchaseorder/{purchaseorderCode} |
+| **Base Path** | https://purchaseorder/api |
+| **Produces** | application/jsonapplication/problem+json | 
+
+#### Parameters
 
 
-h4. Parameters
+##### Path Parameters
 
-h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |purchaseorderCode |PurchaseOrder code | String | (/) |null |  |  |
-
-
+| Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+|purchaseorderCode |PurchaseOrder code | String | (/) |null |  |  |
 
 
 
-h4. Responses
-    ||Status Code||Message||Return Type||
-        |200|successful operation|PurchaseOrder&nbsp;|
-        |400|Invalid request supplied|Problem&nbsp;|
-        |404|PurchaseOrder not found|Problem&nbsp;|
-        |500|Internal error|Problem&nbsp;|
 
 
-h3. updatePurchaseOrder
+#### Responses
+
+| Status Code | Message | Return Type|
+| --- | --- | --- |
+| 200 | successful operation | PurchaseOrder&nbsp; |
+| 400 | Invalid request supplied | Problem&nbsp; |
+| 404 | PurchaseOrder not found | Problem&nbsp; |
+| 500 | Internal error | Problem&nbsp; |
+
+
+
+### updatePurchaseOrder
 
 *Summary:* Update an existing PurchaseOrder
 *Description:* Update an existing PurchaseOrder by Id
 
-|| HttpMethod | PUT|
-|| Protocol | https|
-|| Path | /purchaseorder|
-|| Base Path | https://purchaseorder/api |
-|| Produces | application/jsonapplication/problem+json|
+| **HttpMethod** | PUT |
+| **Protocol** | https |
+| **Path** | /purchaseorder |
+| **Base Path** | https://purchaseorder/api |
+| **Produces** | application/jsonapplication/problem+json | 
 
-
-h4. Parameters
-
-
-h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |PurchaseOrderUpdateRequest |Update an existing PurchaseOrder | PurchaseOrderUpdateRequest | (/) | |  |  |
+#### Parameters
 
 
 
+##### Body Parameter
 
-h4. Responses
-    ||Status Code||Message||Return Type||
-        |200|Successful operation|PurchaseOrder&nbsp;|
-        |400|Invalid request supplied|Problem&nbsp;|
-        |404|PurchaseOrder not found|Problem&nbsp;|
-        |500|Internal error|Problem&nbsp;|
+| Name | Description | Type | Required | Default | Pattern | Enum |
+| --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderUpdateRequest |Update an existing PurchaseOrder | PurchaseOrderUpdateRequest | (/) | |  |  |
 
 
-h2. Models
 
 
-h3. Problem
+#### Responses
+
+| Status Code | Message | Return Type|
+| --- | --- | --- |
+| 200 | Successful operation | PurchaseOrder&nbsp; |
+| 400 | Invalid request supplied | Problem&nbsp; |
+| 404 | PurchaseOrder not found | Problem&nbsp; |
+| 500 | Internal error | Problem&nbsp; |
 
 
-||Field Name||Required||Type||Description||Enum||
- |type |(x) |String|A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.  |  |
- |title |(x) |String|A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  |  |
- |status |(x) |Integer|The HTTP status code generated by the origin server for this occurrence of the problem.  |  |
- |detail |(x) |String|A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  |  |
- |instance |(x) |String|A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.  |  |
+## Models
+
+
+### Problem
+
+
+
+| Field Name | Required | Type | Description | Enum |
+| --- | --- | --- | --- | --- |
+ | type | (x) | String | A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.  |  |
+ | title | (x) | String | A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  |  |
+ | status | (x) | Integer | The HTTP status code generated by the origin server for this occurrence of the problem.  |  |
+ | detail | (x) | String | A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  |  |
+ | instance | (x) | String | A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.  |  |
  
 
-h3. PurchaseOrder
+### PurchaseOrder
 
 
-||Field Name||Required||Type||Description||Enum||
- |code |(/) |String| |  |
- |status |(/) |String| |  [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED]  |
- |customer |(/) |String| |  |
- |product |(x) |String| |  |
- |amount |(x) |BigDecimal| |  |
- |createdAt |(x) |Date| |  |
- |orderedAt |(x) |Date| |  |
- |expectedDeliveryAt |(x) |Date| |  |
+
+| Field Name | Required | Type | Description | Enum |
+| --- | --- | --- | --- | --- |
+ | code | (/) | String |  |  |
+ | status | (/) | String |  |  [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED]  |
+ | customer | (/) | String |  |  |
+ | product | (x) | String |  |  |
+ | amount | (x) | BigDecimal |  |  |
+ | createdAt | (x) | Date |  |  |
+ | orderedAt | (x) | Date |  |  |
+ | expectedDeliveryAt | (x) | Date |  |  |
  
 
-h3. PurchaseOrderRequest
+### PurchaseOrderRequest
 
 
-||Field Name||Required||Type||Description||Enum||
- |code |(x) |String| |  |
- |customer |(/) |String| |  |
+
+| Field Name | Required | Type | Description | Enum |
+| --- | --- | --- | --- | --- |
+ | code | (x) | String |  |  |
+ | customer | (/) | String |  |  |
  
 
-h3. PurchaseOrderTransitionRequest
+### PurchaseOrderTransitionRequest
 
 
-||Field Name||Required||Type||Description||Enum||
- |transition |(/) |String| |  [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER]  |
- |expectedDeliveryAt |(x) |Date| |  |
+
+| Field Name | Required | Type | Description | Enum |
+| --- | --- | --- | --- | --- |
+ | transition | (/) | String |  |  [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER]  |
+ | expectedDeliveryAt | (x) | Date |  |  |
  
 
-h3. PurchaseOrderUpdateRequest
+### PurchaseOrderUpdateRequest
 
 
-||Field Name||Required||Type||Description||Enum||
- |code |(/) |String| |  |
- |product |(/) |String| |  |
- |amount |(x) |BigDecimal| |  |
+
+| Field Name | Required | Type | Description | Enum |
+| --- | --- | --- | --- | --- |
+ | code | (/) | String |  |  |
+ | product | (/) | String |  |  |
+ | amount | (x) | BigDecimal |  |  |
  
-
