@@ -3,9 +3,9 @@ package it.pdv.servicedomain.servicetemplate.restapi.mapper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.restapi.exception.OpenAPIException;
 import it.pdv.servicedomain.servicetemplate.restapi.model.ProblemOpenAPI;
 

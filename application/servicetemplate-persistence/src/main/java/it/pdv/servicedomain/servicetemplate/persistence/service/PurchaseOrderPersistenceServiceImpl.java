@@ -4,7 +4,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.persistence.entity.PurchaseOrderEntity;
 import it.pdv.servicedomain.servicetemplate.persistence.mapper.PurchaseOrderMapper;

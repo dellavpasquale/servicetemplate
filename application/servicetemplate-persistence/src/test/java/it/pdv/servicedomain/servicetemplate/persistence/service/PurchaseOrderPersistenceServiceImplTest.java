@@ -16,8 +16,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.persistence.repository.PurchaseOrderRepository;
 import it.pdv.servicedomain.servicetemplate.persistence.service.PurchaseOrderPersistenceServiceImpl;

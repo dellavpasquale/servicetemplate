@@ -4,11 +4,12 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.service.CreatePurchaseOrderService;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderRequest;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.CreatePurchaseOrderUseCase;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderRequest;
 import it.pdv.servicedomain.servicetemplate.restapi.PurchaseorderApiDelegate;
 import it.pdv.servicedomain.servicetemplate.restapi.exception.OpenAPIException;
 import it.pdv.servicedomain.servicetemplate.restapi.mapper.PurchaseOrderMapper;
@@ -18,10 +19,10 @@ import it.pdv.servicedomain.servicetemplate.restapi.model.PurchaseOrderRequestOp
 public class PurchaseOrderRestApiImpl implements PurchaseorderApiDelegate {
 
 	private PurchaseOrderMapper mapper = Mappers.getMapper(PurchaseOrderMapper.class);
-	private CreatePurchaseOrderService createPurchaseOrderService;
+	private CreatePurchaseOrderUseCase createPurchaseOrderUseCase;
 	
-	public PurchaseOrderRestApiImpl(CreatePurchaseOrderService createPurchaseOrderService) {
-		this.createPurchaseOrderService = createPurchaseOrderService;
+	public PurchaseOrderRestApiImpl(CreatePurchaseOrderUseCase createPurchaseOrderUseCase) {
+		this.createPurchaseOrderUseCase = createPurchaseOrderUseCase;
 	}
 	
 	@Override
@@ -29,10 +30,10 @@ public class PurchaseOrderRestApiImpl implements PurchaseorderApiDelegate {
 			PurchaseOrderRequestOpenAPI purchaseOrderRequestOpenAPI) {
 		PurchaseOrderRequest purchaseOrderRequest = mapper.purchaseOrderRequestOpenAPIToPurchaseOrderRequest(purchaseOrderRequestOpenAPI);
 		try {
-			PurchaseOrder purchaseOrder = createPurchaseOrderService.createPurchaseOrder(purchaseOrderRequest);
+			PurchaseOrder purchaseOrder = createPurchaseOrderUseCase.createPurchaseOrder(purchaseOrderRequest);
 			PurchaseOrderOpenAPI result = mapper.purchaseOrderToPurchaseOrderOpenAPI(purchaseOrder);
 			return new ResponseEntity<PurchaseOrderOpenAPI>(result, HttpStatus.OK);
-		} catch (InvalidDomainEntityException | DomainEntityAlreadyExistsException e) {
+		} catch (InvalidDomainEntityException | DomainEntityAlreadyExistsException | ForbiddenOperationException e) {
 			throw new OpenAPIException(e);
 		}
 	}

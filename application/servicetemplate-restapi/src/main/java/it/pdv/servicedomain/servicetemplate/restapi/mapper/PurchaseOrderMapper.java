@@ -2,8 +2,8 @@ package it.pdv.servicedomain.servicetemplate.restapi.mapper;
 
 import org.mapstruct.Mapper;
 
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
-import it.pdv.servicedomain.servicetemplate.domain.service.request.PurchaseOrderRequest;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderRequest;
 import it.pdv.servicedomain.servicetemplate.restapi.model.PurchaseOrderOpenAPI;
 import it.pdv.servicedomain.servicetemplate.restapi.model.PurchaseOrderRequestOpenAPI;
 

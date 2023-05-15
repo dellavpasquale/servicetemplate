@@ -3,7 +3,7 @@ package it.pdv.servicedomain.servicetemplate.persistence.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import it.pdv.servicedomain.servicetemplate.domain.model.PurchaseOrder;
+import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.persistence.entity.PurchaseOrderEntity;
 
 @Mapper
