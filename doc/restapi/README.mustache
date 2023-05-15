@@ -11,14 +11,14 @@
 {{{licenseInfo}}}  
 {{{licenseUrl}}}  
 
-## Access
+## Security
 
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}  
-{{/authMethods}}
+{{name}} {{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}  
+{{^-last}}, {{/-last}}{{/authMethods}}
 {{/hasAuthMethods}}
-
+{{^hasAuthMethods}}*Not defined*{{/hasAuthMethods}}
 ## Endpoints
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}  
@@ -31,7 +31,10 @@
 **HttpMethod:** {{httpMethod}}  
 **Protocol:** {{scheme}}  
 **Path:** {{path}}  
-{{#hasProduces}}**Produces:** {{#produces}}{{mediaType}}{{/produces}} {{/hasProduces}}   
+{{#hasProduces}}**Produces:** {{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}} {{/hasProduces}}   
+{{#hasConsumes}}**Consumes:** {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}} {{/hasConsumes}}
+
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
 #### Parameters
 
@@ -140,6 +143,6 @@ where:
 {{/allowableValues}} {{/isEnum}}
 {{^isEnum}}| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
 | --- | --- | --- | --- | --- | --- | --- | --- |
-{{#vars}}{{>param}} {{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{.}}}{{/dataFormat}} | {{/vars}} {{/isEnum}}
+{{#vars}}{{>param}} {{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}} {{unescapedDescription}} {{#dataFormat}}format: {{{.}}}{{/dataFormat}} | {{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}
