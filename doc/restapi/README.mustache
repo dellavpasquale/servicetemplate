@@ -1,23 +1,23 @@
-# {{{appDescription}}}
+# {{{appDescription}}}  
 
-{{#version}}*Version:* {{{.}}}{{/version}}
+# Info 
 
-----
+{{#version}}*Version:* {{{.}}}{{/version}}  
 
 ## Endpoints
 
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}  
 
 ### {{nickname}}
 
-{{#summary}}*Summary:* {{.}}{{/summary}}
-*Description:* {{notes}}{{^notes}}*No Description*{{/notes}}
+{{#summary}}*Summary:* {{.}}{{/summary}}   
+*Description:* {{notes}}{{^notes}}*No Description*{{/notes}}   
 
-| **HttpMethod** | {{httpMethod}} |
-| **Protocol** | {{scheme}} |
-| **Path** | {{path}} |
-| **Base Path** | {{basePath}} |
-{{#hasProduces}}| **Produces** | {{#produces}}{{mediaType}}{{/produces}} | {{/hasProduces}}
+**HttpMethod:** {{httpMethod}}  
+**Protocol:** {{scheme}}  
+**Path:** {{path}}  
+**Base Path:** {{basePath}}   
+{{#hasProduces}}**Produces:** {{#produces}}{{mediaType}}{{/produces}} {{/hasProduces}}   
 
 #### Parameters
 

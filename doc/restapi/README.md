@@ -1,23 +1,23 @@
-# This is the API to manage PurchaseOrder objects
+# This is the API to manage PurchaseOrder objects  
 
-*Version:* 1.0.0
+# Info 
 
-----
+*Version:* 1.0.0  
 
 ## Endpoints
 
-
+  
 
 ### createPurchaseOrder
 
-*Summary:* Create a new PurchaseOrder
-*Description:* Create a new PurchaseOrder
+*Summary:* Create a new PurchaseOrder   
+*Description:* Create a new PurchaseOrder   
 
-| **HttpMethod** | POST |
-| **Protocol** | https |
-| **Path** | /purchaseorder |
-| **Base Path** | https://purchaseorder/api |
-| **Produces** | application/jsonapplication/problem+json | 
+**HttpMethod:** POST  
+**Protocol:** https  
+**Path:** /purchaseorder  
+**Base Path:** https://purchaseorder/api   
+**Produces:** application/jsonapplication/problem+json    
 
 #### Parameters
 
@@ -40,18 +40,18 @@
 | 400 | Invalid request supplied | Problem&nbsp; |
 | 500 | Internal error | Problem&nbsp; |
 
-
+  
 
 ### createPurchaseOrderTransition
 
-*Summary:* Create a new status transition
-*Description:* Create a new status transition
+*Summary:* Create a new status transition   
+*Description:* Create a new status transition   
 
-| **HttpMethod** | POST |
-| **Protocol** | https |
-| **Path** | /purchaseorder/{purchaseorderCode}/transition |
-| **Base Path** | https://purchaseorder/api |
-| **Produces** | application/jsonapplication/problem+json | 
+**HttpMethod:** POST  
+**Protocol:** https  
+**Path:** /purchaseorder/{purchaseorderCode}/transition  
+**Base Path:** https://purchaseorder/api   
+**Produces:** application/jsonapplication/problem+json    
 
 #### Parameters
 
@@ -81,18 +81,18 @@
 | 400 | Invalid request supplied | Problem&nbsp; |
 | 500 | Internal error | Problem&nbsp; |
 
-
+  
 
 ### getPurchaseOrderByCode
 
-*Summary:* Find a PurchaseOrder
-*Description:* Find a Purchase Order by code
+*Summary:* Find a PurchaseOrder   
+*Description:* Find a Purchase Order by code   
 
-| **HttpMethod** | GET |
-| **Protocol** | https |
-| **Path** | /purchaseorder/{purchaseorderCode} |
-| **Base Path** | https://purchaseorder/api |
-| **Produces** | application/jsonapplication/problem+json | 
+**HttpMethod:** GET  
+**Protocol:** https  
+**Path:** /purchaseorder/{purchaseorderCode}  
+**Base Path:** https://purchaseorder/api   
+**Produces:** application/jsonapplication/problem+json    
 
 #### Parameters
 
@@ -116,18 +116,18 @@
 | 404 | PurchaseOrder not found | Problem&nbsp; |
 | 500 | Internal error | Problem&nbsp; |
 
-
+  
 
 ### updatePurchaseOrder
 
-*Summary:* Update an existing PurchaseOrder
-*Description:* Update an existing PurchaseOrder by Id
+*Summary:* Update an existing PurchaseOrder   
+*Description:* Update an existing PurchaseOrder by Id   
 
-| **HttpMethod** | PUT |
-| **Protocol** | https |
-| **Path** | /purchaseorder |
-| **Base Path** | https://purchaseorder/api |
-| **Produces** | application/jsonapplication/problem+json | 
+**HttpMethod:** PUT  
+**Protocol:** https  
+**Path:** /purchaseorder  
+**Base Path:** https://purchaseorder/api   
+**Produces:** application/jsonapplication/problem+json    
 
 #### Parameters
 
