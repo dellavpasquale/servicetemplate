@@ -1,10 +1,9 @@
 # {{{appName}}}
 
-{{unescapedAppDescription}}  
+{{{appDescription}}}  
 
 ## Info 
 
-{{#info}}{{x-audience}}{{/info}}
 {{#infoUrl}}*More information:* {{{infoUrl}}} {{/infoUrl}}  
 {{#infoEmail}}*Contact Info:* {{{infoName}}} <{{{infoEmail}}}> {{/infoEmail}}
 {{#version}}*Version:* {{{.}}}{{/version}}  
@@ -41,7 +40,7 @@
 > {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{#summary}}*Summary:* {{.}}{{/summary}}   
-*Description:* {{unescapedNotes}}{{^notes}}*No Description*{{/notes}}   
+*Description:* {{notes}}{{^notes}}*No Description*{{/notes}}   
 
 **HttpMethod:** {{httpMethod}}  
 **Protocol:** {{scheme}}  
@@ -62,8 +61,8 @@ AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last
 
 ##### Path Parameters
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#pathParams}}{{>param}}{{/pathParams}}
 {{/hasPathParams}}
 
@@ -71,8 +70,8 @@ AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last
 
 ##### Body Parameter
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#bodyParams}}{{>param}}{{/bodyParams}}
 {{/hasBodyParam}}
 
@@ -80,8 +79,8 @@ AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last
 
 ##### Form Parameter
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#formParams}}{{>param}}{{/formParams}}
 {{/hasFormParams}}
 
@@ -89,8 +88,8 @@ AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last
 
 ##### Header Parameters
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#headerParams}}{{>param}}{{/headerParams}}
 {{/hasHeaderParams}}
 
@@ -98,8 +97,8 @@ AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last
 
 ##### Query Parameters
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#queryParams}}{{>param}}{{/queryParams}}
 {{/hasQueryParams}}
 
@@ -155,8 +154,8 @@ where:
 {{#allowableValues}} {{#enumVars}} | {{{name}}} | {{{value}}} | {{{enumDescription}}} |
 {{/enumVars}}
 {{/allowableValues}} {{/isEnum}}
-{{^isEnum}}| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+{{^isEnum}}| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#vars}}{{>param}}{{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}

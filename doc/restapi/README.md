@@ -1,9 +1,8 @@
 # PurchaseOrder API
 
-This is the API to manage PurchaseOrder objects &lt;br&gt; &gt; company-internal  
+This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-internal</i>  
 
 ## Info 
-
 
   
 
@@ -44,9 +43,9 @@ This is the API to manage PurchaseOrder objects &lt;br&gt; &gt; company-internal
 
 ##### Body Parameter
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderRequest |  | [PurchaseOrderRequest](#PurchaseOrderRequest) |  | yes | no |  |  |  |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderRequest | Create a new PurchaseOrder | PurchaseOrderRequest |  | yes | no |  |  |
 
 
 
@@ -56,9 +55,9 @@ This is the API to manage PurchaseOrder objects &lt;br&gt; &gt; company-internal
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |  |
-| 400 | Invalid request supplied | [Problem](#Problem) |  |
-| 500 | Internal error | [Problem](#Problem) |  |
+| 200 | Successful operation | PurchaseOrder |  |
+| 400 | Invalid request supplied | Problem |  |
+| 500 | Internal error | Problem |  |
 
 #### Example
 
@@ -113,17 +112,17 @@ curl -X  \
 
 ##### Path Parameters
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|purchaseorderCode | PurchaseOrder code | String |  | yes | no | null | [Length(8,40)] |  |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|purchaseorderCode | PurchaseOrder code | String |  | yes | no | null | [Length(8,40)] |
 
 
 
 ##### Body Parameter
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderTransitionRequest |  | [PurchaseOrderTransitionRequest](#PurchaseOrderTransitionRequest) |  | yes | no |  |  |  |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderTransitionRequest | Create a new status transition | PurchaseOrderTransitionRequest |  | yes | no |  |  |
 
 
 
@@ -133,9 +132,9 @@ curl -X  \
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |  |
-| 400 | Invalid request supplied | [Problem](#Problem) |  |
-| 500 | Internal error | [Problem](#Problem) |  |
+| 200 | Successful operation | PurchaseOrder |  |
+| 400 | Invalid request supplied | Problem |  |
+| 500 | Internal error | Problem |  |
 
 #### Example
 
@@ -192,9 +191,9 @@ where:
 
 ##### Path Parameters
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|purchaseorderCode | PurchaseOrder code | String |  | yes | no | null | [Length(8,40)] |  |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|purchaseorderCode | PurchaseOrder code | String |  | yes | no | null | [Length(8,40)] |
 
 
 
@@ -205,10 +204,10 @@ where:
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | successful operation | [PurchaseOrder](#PurchaseOrder) |  |
-| 400 | Invalid request supplied | [Problem](#Problem) |  |
-| 404 | PurchaseOrder not found | [Problem](#Problem) |  |
-| 500 | Internal error | [Problem](#Problem) |  |
+| 200 | successful operation | PurchaseOrder |  |
+| 400 | Invalid request supplied | Problem |  |
+| 404 | PurchaseOrder not found | Problem |  |
+| 500 | Internal error | Problem |  |
 
 #### Example
 
@@ -260,9 +259,9 @@ where:
 
 ##### Body Parameter
 
-| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderUpdateRequest |  | [PurchaseOrderUpdateRequest](#PurchaseOrderUpdateRequest) |  | yes | no |  |  |  |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderUpdateRequest | Update an existing PurchaseOrder | PurchaseOrderUpdateRequest |  | yes | no |  |  |
 
 
 
@@ -272,10 +271,10 @@ where:
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |  |
-| 400 | Invalid request supplied | [Problem](#Problem) |  |
-| 404 | PurchaseOrder not found | [Problem](#Problem) |  |
-| 500 | Internal error | [Problem](#Problem) |  |
+| 200 | Successful operation | PurchaseOrder |  |
+| 400 | Invalid request supplied | Problem |  |
+| 404 | PurchaseOrder not found | Problem |  |
+| 500 | Internal error | Problem |  |
 
 #### Example
 
@@ -317,63 +316,58 @@ curl -X  \
 
 
 
-| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|type | A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.
- | String | uri-reference | no | no | about:blank |  |  |
-|title | A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
- | String |  | no | no | null |  |  |
-|status | The HTTP status code generated by the origin server for this occurrence of the problem.
- | Integer | int32 | no | no | null | [Range(100,lt 600)] |  |
-|detail | A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
- | String |  | no | no | null |  |  |
-|instance | A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.
- | String | uri-reference | no | no | null |  |  |
+| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|type | A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.  | String | uri-reference | no | no | about:blank |  |
+|title | A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String |  | no | no | null |  |
+|status | The HTTP status code generated by the origin server for this occurrence of the problem.  | Integer | int32 | no | no | null | [Range(100,lt 600)] |
+|detail | A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String |  | no | no | null |  |
+|instance | A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.  | String | uri-reference | no | no | null |  |
  
 
 ### PurchaseOrder
 
 
 
-| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|code |  | String |  | yes | no | null | [Length(8,40)] |  |
-|status |  | String |  | yes | no | null |  | [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED] |
-|customer |  | String |  | yes | no | null | [Length(2,56)] |  |
-|product |  | String |  | no | no | null | [Length(2,56)] |  |
-|amount |  | BigDecimal | decimal | no | no | null |  |  |
-|createdAt |  | Date | date-time | no | no | null |  |  |
-|orderedAt |  | Date | date-time | no | no | null |  |  |
-|expectedDeliveryAt |  | Date | date-time | no | no | null |  |  |
+| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|code |  | String |  | yes | no | null | [Length(8,40)] |
+|status |  | String |  | yes | no | null | [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED] |
+|customer |  | String |  | yes | no | null | [Length(2,56)] |
+|product |  | String |  | no | no | null | [Length(2,56)] |
+|amount |  | BigDecimal | decimal | no | no | null |  |
+|createdAt |  | Date | date-time | no | no | null |  |
+|orderedAt |  | Date | date-time | no | no | null |  |
+|expectedDeliveryAt |  | Date | date-time | no | no | null |  |
  
 
 ### PurchaseOrderRequest
 
 
 
-| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|code |  | String |  | no | no | null | [Length(8,40)] |  |
-|customer |  | String |  | yes | no | null | [Length(2,56)] |  |
+| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|code |  | String |  | no | no | null | [Length(8,40)] |
+|customer |  | String |  | yes | no | null | [Length(2,56)] |
  
 
 ### PurchaseOrderTransitionRequest
 
 
 
-| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|transition |  | String |  | yes | no | null |  | [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER] |
-|expectedDeliveryAt |  | Date | date-time | no | no | null |  |  |
+| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|transition |  | String |  | yes | no | null | [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER] |
+|expectedDeliveryAt |  | Date | date-time | no | no | null |  |
  
 
 ### PurchaseOrderUpdateRequest
 
 
 
-| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|code |  | String |  | yes | no | null | [Length(8,40)] |  |
-|product |  | String |  | yes | no | null | [Length(2,56)] |  |
-|amount |  | BigDecimal | decimal | no | no | null |  |  |
+| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|code |  | String |  | yes | no | null | [Length(8,40)] |
+|product |  | String |  | yes | no | null | [Length(2,56)] |
+|amount |  | BigDecimal | decimal | no | no | null |  |
  
