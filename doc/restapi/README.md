@@ -45,7 +45,7 @@ This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-int
 
 | Name | Description | Type | Format | Required | Nullable | Default | Constraints |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderRequest | Create a new PurchaseOrder | PurchaseOrderRequest |  | yes | no |  |  |
+|PurchaseOrderRequest | Create a new PurchaseOrder | [PurchaseOrderRequest](#PurchaseOrderRequest) |  | yes | no |  |  |
 
 
 
@@ -53,11 +53,11 @@ This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-int
 
 #### Responses
 
-| Status Code | Message | Return Type | Example |
-| --- | --- | --- | --- |
-| 200 | Successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 500 | Internal error | Problem |  |
+| Status Code | Message | Return Type |
+| --- | --- | --- |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |
+| 400 | Invalid request supplied | [Problem](#Problem) |
+| 500 | Internal error | [Problem](#Problem) |
 
 #### Example
 
@@ -122,7 +122,7 @@ curl -X  \
 
 | Name | Description | Type | Format | Required | Nullable | Default | Constraints |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderTransitionRequest | Create a new status transition | PurchaseOrderTransitionRequest |  | yes | no |  |  |
+|PurchaseOrderTransitionRequest | Create a new status transition | [PurchaseOrderTransitionRequest](#PurchaseOrderTransitionRequest) |  | yes | no |  |  |
 
 
 
@@ -130,11 +130,11 @@ curl -X  \
 
 #### Responses
 
-| Status Code | Message | Return Type | Example |
-| --- | --- | --- | --- |
-| 200 | Successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 500 | Internal error | Problem |  |
+| Status Code | Message | Return Type |
+| --- | --- | --- |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |
+| 400 | Invalid request supplied | [Problem](#Problem) |
+| 500 | Internal error | [Problem](#Problem) |
 
 #### Example
 
@@ -202,12 +202,12 @@ where:
 
 #### Responses
 
-| Status Code | Message | Return Type | Example |
-| --- | --- | --- | --- |
-| 200 | successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 404 | PurchaseOrder not found | Problem |  |
-| 500 | Internal error | Problem |  |
+| Status Code | Message | Return Type |
+| --- | --- | --- |
+| 200 | successful operation | [PurchaseOrder](#PurchaseOrder) |
+| 400 | Invalid request supplied | [Problem](#Problem) |
+| 404 | PurchaseOrder not found | [Problem](#Problem) |
+| 500 | Internal error | [Problem](#Problem) |
 
 #### Example
 
@@ -261,7 +261,7 @@ where:
 
 | Name | Description | Type | Format | Required | Nullable | Default | Constraints |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderUpdateRequest | Update an existing PurchaseOrder | PurchaseOrderUpdateRequest |  | yes | no |  |  |
+|PurchaseOrderUpdateRequest | Update an existing PurchaseOrder | [PurchaseOrderUpdateRequest](#PurchaseOrderUpdateRequest) |  | yes | no |  |  |
 
 
 
@@ -269,12 +269,12 @@ where:
 
 #### Responses
 
-| Status Code | Message | Return Type | Example |
-| --- | --- | --- | --- |
-| 200 | Successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 404 | PurchaseOrder not found | Problem |  |
-| 500 | Internal error | Problem |  |
+| Status Code | Message | Return Type |
+| --- | --- | --- |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |
+| 400 | Invalid request supplied | [Problem](#Problem) |
+| 404 | PurchaseOrder not found | [Problem](#Problem) |
+| 500 | Internal error | [Problem](#Problem) |
 
 #### Example
 
