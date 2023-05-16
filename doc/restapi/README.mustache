@@ -25,6 +25,8 @@
 
 ### {{nickname}}
 
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
 {{#summary}}*Summary:* {{.}}{{/summary}}   
 *Description:* {{notes}}{{^notes}}*No Description*{{/notes}}   
 
@@ -34,7 +36,6 @@
 {{#hasProduces}}**Produces:** {{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}} {{/hasProduces}}   
 {{#hasConsumes}}**Consumes:** {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}} {{/hasConsumes}}
 
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
 #### Parameters
 
@@ -42,8 +43,8 @@
 
 ##### Path Parameters
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#pathParams}}{{>param}}{{/pathParams}}
 {{/hasPathParams}}
 
@@ -51,8 +52,8 @@
 
 ##### Body Parameter
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#bodyParams}}{{>param}}{{/bodyParams}}
 {{/hasBodyParam}}
 
@@ -60,23 +61,17 @@
 
 ##### Form Parameter
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#formParams}}{{>param}}{{/formParams}}
 {{/hasFormParams}}
-
-##### Return type
-{{#returnType}}
-{{#hasReference}}{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<a href="#{{returnBaseType}}">{{returnBaseType}}</a>{{^returnSimpleType}}]{{/returnSimpleType}}{{/hasReference}}
-{{^hasReference}}{{returnType}}{{/hasReference}}
-{{/returnType}}
 
 {{#hasHeaderParams}}
 
 ##### Header Parameters
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {{#headerParams}}{{>param}}{{/headerParams}}
 {{/hasHeaderParams}}
 
@@ -84,8 +79,8 @@
 
 ##### Query Parameters
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#queryParams}}{{>param}}{{/queryParams}}
 {{/hasQueryParams}}
 
@@ -94,7 +89,7 @@
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
 {{#responses}}
-| {{code}} | {{message}} | {{{dataType}}} | {{#examples}} {{{contentType}}} {{example}} {{/examples}} |
+| {{code}} | {{message}} | {{#isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}{{#generateModelDocs}}[{{dataType}}](#{{baseType}}){{/generateModelDocs}}{{^generateModelDocs}}{{dataType}}{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}} | {{#examples}} {{{contentType}}} {{example}} {{/examples}} |
 {{/responses}}
 
 #### Example
@@ -141,8 +136,8 @@ where:
 {{#allowableValues}} {{#enumVars}} | {{{name}}} | {{{value}}} | {{{enumDescription}}} |
 {{/enumVars}}
 {{/allowableValues}} {{/isEnum}}
-{{^isEnum}}| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
+{{^isEnum}}| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-{{#vars}}{{>param}} {{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}} {{unescapedDescription}} {{#dataFormat}}format: {{{.}}}{{/dataFormat}} | {{/vars}} {{/isEnum}}
+{{#vars}}{{>param}}{{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}

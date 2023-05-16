@@ -20,6 +20,8 @@ This is the API to manage PurchaseOrder objects
 
 ### createPurchaseOrder
 
+> PurchaseOrder createPurchaseOrder(PurchaseOrderRequest)
+
 *Summary:* Create a new PurchaseOrder   
 *Description:* Create a new PurchaseOrder   
 
@@ -29,7 +31,6 @@ This is the API to manage PurchaseOrder objects
 **Produces:** application/json    
 **Consumes:** application/json 
 
-> PurchaseOrder createPurchaseOrder(PurchaseOrderRequest)
 
 #### Parameters
 
@@ -37,14 +38,10 @@ This is the API to manage PurchaseOrder objects
 
 ##### Body Parameter
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderRequest | Create a new PurchaseOrder | [PurchaseOrderRequest](#PurchaseOrderRequest) | yes |  |  |  |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderRequest | Create a new PurchaseOrder | [PurchaseOrderRequest](#PurchaseOrderRequest) |  | yes |  |  |  |
 
-
-
-##### Return type
-<a href="#PurchaseOrder">PurchaseOrder</a>
 
 
 
@@ -53,9 +50,9 @@ This is the API to manage PurchaseOrder objects
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | Successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 500 | Internal error | Problem |  |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |  |
+| 400 | Invalid request supplied | [Problem](#Problem) |  |
+| 500 | Internal error | [Problem](#Problem) |  |
 
 #### Example
 
@@ -92,6 +89,8 @@ curl -X  \
 
 ### createPurchaseOrderTransition
 
+> PurchaseOrder createPurchaseOrderTransition(purchaseorderCode, PurchaseOrderTransitionRequest)
+
 *Summary:* Create a new status transition   
 *Description:* Create a new status transition   
 
@@ -101,29 +100,24 @@ curl -X  \
 **Produces:** application/json    
 **Consumes:** application/json 
 
-> PurchaseOrder createPurchaseOrderTransition(purchaseorderCode, PurchaseOrderTransitionRequest)
 
 #### Parameters
 
 
 ##### Path Parameters
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
-|purchaseorderCode | PurchaseOrder code | String | yes | null | [StringLength(40, MinimumLength=8)] |  |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|purchaseorderCode | PurchaseOrder code | String |  | yes | null | [Length(8,40)] |  |
 
 
 
 ##### Body Parameter
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderTransitionRequest | Create a new status transition | [PurchaseOrderTransitionRequest](#PurchaseOrderTransitionRequest) | yes |  |  |  |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderTransitionRequest | Create a new status transition | [PurchaseOrderTransitionRequest](#PurchaseOrderTransitionRequest) |  | yes |  |  |  |
 
-
-
-##### Return type
-<a href="#PurchaseOrder">PurchaseOrder</a>
 
 
 
@@ -132,9 +126,9 @@ curl -X  \
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | Successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 500 | Internal error | Problem |  |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |  |
+| 400 | Invalid request supplied | [Problem](#Problem) |  |
+| 500 | Internal error | [Problem](#Problem) |  |
 
 #### Example
 
@@ -173,6 +167,8 @@ where:
 
 ### getPurchaseOrderByCode
 
+> PurchaseOrder getPurchaseOrderByCode(purchaseorderCode)
+
 *Summary:* Find a PurchaseOrder   
 *Description:* Find a Purchase Order by code   
 
@@ -182,22 +178,17 @@ where:
 **Produces:** application/json    
 
 
-> PurchaseOrder getPurchaseOrderByCode(purchaseorderCode)
 
 #### Parameters
 
 
 ##### Path Parameters
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
-|purchaseorderCode | PurchaseOrder code | String | yes | null | [StringLength(40, MinimumLength=8)] |  |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|purchaseorderCode | PurchaseOrder code | String |  | yes | null | [Length(8,40)] |  |
 
 
-
-
-##### Return type
-<a href="#PurchaseOrder">PurchaseOrder</a>
 
 
 
@@ -206,10 +197,10 @@ where:
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 404 | PurchaseOrder not found | Problem |  |
-| 500 | Internal error | Problem |  |
+| 200 | successful operation | [PurchaseOrder](#PurchaseOrder) |  |
+| 400 | Invalid request supplied | [Problem](#Problem) |  |
+| 404 | PurchaseOrder not found | [Problem](#Problem) |  |
+| 500 | Internal error | [Problem](#Problem) |  |
 
 #### Example
 
@@ -242,6 +233,8 @@ where:
 
 ### updatePurchaseOrder
 
+> PurchaseOrder updatePurchaseOrder(PurchaseOrderUpdateRequest)
+
 *Summary:* Update an existing PurchaseOrder   
 *Description:* Update an existing PurchaseOrder by Id   
 
@@ -251,7 +244,6 @@ where:
 **Produces:** application/json    
 **Consumes:** application/json 
 
-> PurchaseOrder updatePurchaseOrder(PurchaseOrderUpdateRequest)
 
 #### Parameters
 
@@ -259,14 +251,10 @@ where:
 
 ##### Body Parameter
 
-| Name | Description | Type | Required | Default | Pattern | Enum |
-| --- | --- | --- | --- | --- | --- | --- |
-|PurchaseOrderUpdateRequest | Update an existing PurchaseOrder | [PurchaseOrderUpdateRequest](#PurchaseOrderUpdateRequest) | yes |  |  |  |
+| Name | Description | Type | Format | Required | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|PurchaseOrderUpdateRequest | Update an existing PurchaseOrder | [PurchaseOrderUpdateRequest](#PurchaseOrderUpdateRequest) |  | yes |  |  |  |
 
-
-
-##### Return type
-<a href="#PurchaseOrder">PurchaseOrder</a>
 
 
 
@@ -275,10 +263,10 @@ where:
 
 | Status Code | Message | Return Type | Example |
 | --- | --- | --- | --- |
-| 200 | Successful operation | PurchaseOrder |  |
-| 400 | Invalid request supplied | Problem |  |
-| 404 | PurchaseOrder not found | Problem |  |
-| 500 | Internal error | Problem |  |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |  |
+| 400 | Invalid request supplied | [Problem](#Problem) |  |
+| 404 | PurchaseOrder not found | [Problem](#Problem) |  |
+| 500 | Internal error | [Problem](#Problem) |  |
 
 #### Example
 
@@ -320,63 +308,58 @@ curl -X  \
 
 
 
-| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
+| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|type | A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.  | String | no | about:blank |  |  |
-  A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.
- format: uri-reference | |title | A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String | no | null |  |  |
-  A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
-  | |status | The HTTP status code generated by the origin server for this occurrence of the problem.  | Integer | no | null | [Range(100, 600)] |  |
-  The HTTP status code generated by the origin server for this occurrence of the problem.
- format: int32 | |detail | A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String | no | null |  |  |
-  A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
-  | |instance | A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.  | String | no | null |  |  |
-  A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.
- format: uri-reference |  
+|type | A URI reference that uniquely identifies the problem type only in the context of the provided API. Opposed to the specification in RFC-7807, it is neither recommended to be dereferenceable and point to a human-readable documentation nor globally unique for the problem type.  | String | uri-reference | no | about:blank |  |  |
+|title | A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String |  | no | null |  |  |
+|status | The HTTP status code generated by the origin server for this occurrence of the problem.  | Integer | int32 | no | null | [Range(100,600)] |  |
+|detail | A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.  | String |  | no | null |  |  |
+|instance | A URI reference that identifies the specific occurrence of the problem, e.g. by adding a fragment identifier or sub-path to the problem type. May be used to locate the root of this problem in the source code.  | String | uri-reference | no | null |  |  |
+ 
 
 ### PurchaseOrder
 
 
 
-| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
+| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|code |  | String | yes | null | [StringLength(40, MinimumLength=8)] |  |
-    | |status |  | String | yes | null |  | [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED] |
-    | |customer |  | String | yes | null | [StringLength(56, MinimumLength=2)] |  |
-    | |product |  | String | no | null | [StringLength(56, MinimumLength=2)] |  |
-    | |amount |  | BigDecimal | no | null |  |  |
-   format: decimal | |createdAt |  | Date | no | null |  |  |
-   format: date-time | |orderedAt |  | Date | no | null |  |  |
-   format: date-time | |expectedDeliveryAt |  | Date | no | null |  |  |
-   format: date-time |  
+|code |  | String |  | yes | null | [Length(8,40)] |  |
+|status |  | String |  | yes | null |  | [DRAFT, ORDERED, CANCELLED, IN_PROGRESS, SENT, DELIVERED] |
+|customer |  | String |  | yes | null | [Length(2,56)] |  |
+|product |  | String |  | no | null | [Length(2,56)] |  |
+|amount |  | BigDecimal | decimal | no | null |  |  |
+|createdAt |  | Date | date-time | no | null |  |  |
+|orderedAt |  | Date | date-time | no | null |  |  |
+|expectedDeliveryAt |  | Date | date-time | no | null |  |  |
+ 
 
 ### PurchaseOrderRequest
 
 
 
-| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
+| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|code |  | String | no | null | [StringLength(40, MinimumLength=8)] |  |
-    | |customer |  | String | yes | null | [StringLength(56, MinimumLength=2)] |  |
-    |  
+|code |  | String |  | no | null | [Length(8,40)] |  |
+|customer |  | String |  | yes | null | [Length(2,56)] |  |
+ 
 
 ### PurchaseOrderTransitionRequest
 
 
 
-| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
+| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|transition |  | String | yes | null |  | [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER] |
-    | |expectedDeliveryAt |  | Date | no | null |  |  |
-   format: date-time |  
+|transition |  | String |  | yes | null |  | [ORDER, CANCEL, START_TO_WORK, SEND, DELIVER] |
+|expectedDeliveryAt |  | Date | date-time | no | null |  |  |
+ 
 
 ### PurchaseOrderUpdateRequest
 
 
 
-| Field Name | Description | Type | Required | Default | Pattern | Enum | Test
+| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-|code |  | String | yes | null | [StringLength(40, MinimumLength=8)] |  |
-    | |product |  | String | yes | null | [StringLength(56, MinimumLength=2)] |  |
-    | |amount |  | BigDecimal | no | null |  |  |
-   format: decimal |  
+|code |  | String |  | yes | null | [Length(8,40)] |  |
+|product |  | String |  | yes | null | [Length(2,56)] |  |
+|amount |  | BigDecimal | decimal | no | null |  |  |
+ 
