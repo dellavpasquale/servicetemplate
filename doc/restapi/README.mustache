@@ -5,18 +5,30 @@
 ## Info 
 
 {{#infoUrl}}*More information:* {{{infoUrl}}} {{/infoUrl}}  
-{{#infoEmail}}*Contact Info:* {{{infoEmail}}} {{/infoEmail}}
+{{#infoEmail}}*Contact Info:* {{{infoName}}} <{{{infoEmail}}}> {{/infoEmail}}
 {{#version}}*Version:* {{{.}}}{{/version}}  
 {{#basePathWithoutHost}}*BasePath:* {{.}}{{/basePathWithoutHost}}  
 {{{licenseInfo}}}  
 {{{licenseUrl}}}  
 
+{{termsOfService}}
+  
+{{#externalDocs}}
+[{{description}}]({{url}})
+{{/externalDocs}}
+{{#isDeprecated}}
+> **Deprecated
+{{/isDeprecated}}
+
 ## Security
 
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{name}} {{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}  
-{{^-last}}, {{/-last}}{{/authMethods}}
+{{name}} {{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}} TokenUrl:{{tokenUrl}} RefreshUrl:{{refreshUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}} KeyInCookie:{{isKeyInCookie}} {{/isApiKey}}  {{#scopes}}{{#-last}}, Scopes: {{#scopes}}`{{{scope}}}`{{^-last}}, {{/-last}}{{/scopes}}{{/-last}}{{/scopes}}
+{{^-last}}, {{/-last}}  
+
+{{#isPassword}}password{{/isPassword}}{{#isCode}}code{{/isCode}}{{#isImplicit}}implicit{{/isImplicit}})
+{{/authMethods}}
 {{/hasAuthMethods}}
 {{^hasAuthMethods}}*Not defined*{{/hasAuthMethods}}
 ## Endpoints
@@ -36,6 +48,12 @@
 {{#hasProduces}}**Produces:** {{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}} {{/hasProduces}}   
 {{#hasConsumes}}**Consumes:** {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}} {{/hasConsumes}}
 
+{{#hasAuthMethods}}
+{{#authMethods}}
+AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }
+{{^-last}},{{/-last}}
+{{/authMethods}}
+}{{/hasAuthMethods}}
 
 #### Parameters
 
@@ -43,8 +61,8 @@
 
 ##### Path Parameters
 
-| Name | Description | Type | Format | Required | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#pathParams}}{{>param}}{{/pathParams}}
 {{/hasPathParams}}
 
@@ -52,8 +70,8 @@
 
 ##### Body Parameter
 
-| Name | Description | Type | Format | Required | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#bodyParams}}{{>param}}{{/bodyParams}}
 {{/hasBodyParam}}
 
@@ -61,8 +79,8 @@
 
 ##### Form Parameter
 
-| Name | Description | Type | Format | Required | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#formParams}}{{>param}}{{/formParams}}
 {{/hasFormParams}}
 
@@ -70,8 +88,8 @@
 
 ##### Header Parameters
 
-| Name | Description | Type | Format | Required | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#headerParams}}{{>param}}{{/headerParams}}
 {{/hasHeaderParams}}
 
@@ -79,8 +97,8 @@
 
 ##### Query Parameters
 
-| Name | Description | Type | Format | Required | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#queryParams}}{{>param}}{{/queryParams}}
 {{/hasQueryParams}}
 
@@ -136,8 +154,8 @@ where:
 {{#allowableValues}} {{#enumVars}} | {{{name}}} | {{{value}}} | {{{enumDescription}}} |
 {{/enumVars}}
 {{/allowableValues}} {{/isEnum}}
-{{^isEnum}}| Field Name | Description | Type | Format | Required | Default | Constraints | Enum |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+{{^isEnum}}| Field Name | Description | Type | Format | Required | Nullable | Default | Constraints | Enum |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 {{#vars}}{{>param}}{{/vars}} {{/isEnum}}
 {{/model}}
 {{/models}}
