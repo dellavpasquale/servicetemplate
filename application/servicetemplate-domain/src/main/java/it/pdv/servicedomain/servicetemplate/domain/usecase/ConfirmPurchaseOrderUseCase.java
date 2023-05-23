@@ -5,7 +5,6 @@ import java.time.temporal.ChronoUnit;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
@@ -26,7 +25,7 @@ public class ConfirmPurchaseOrderUseCase {
 	private final PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private final PurchaseOrderNotificationService purchaseOrderNotificationService;
 
-	public PurchaseOrder confirm(PurchaseOrderGetRequest purchaseOrderGetRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	public PurchaseOrder confirm(PurchaseOrderGetRequest purchaseOrderGetRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, ForbiddenOperationException {
 		PurchaseOrder purchaseOrder = retrievePurchaseOrderUseCase.getPurchaseOrder(purchaseOrderGetRequest);
 		validateOperation(purchaseOrder);
 		purchaseOrder.setStatus(Status.ORDERED);

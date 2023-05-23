@@ -2,7 +2,6 @@ package it.pdv.servicedomain.servicetemplate.domain.usecase;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
@@ -22,7 +21,7 @@ public class CancelPurchaseOrderUseCase {
 	private final PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private final PurchaseOrderNotificationService purchaseOrderNotificationService;
 
-	public PurchaseOrder cancel(PurchaseOrderGetRequest purchaseOrderGetRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	public PurchaseOrder cancel(PurchaseOrderGetRequest purchaseOrderGetRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, ForbiddenOperationException {
 		PurchaseOrder purchaseOrder = retrievePurchaseOrderUseCase.getPurchaseOrder(purchaseOrderGetRequest);
 		validateOperation(purchaseOrder);
 		purchaseOrder.setStatus(Status.CANCELLED);

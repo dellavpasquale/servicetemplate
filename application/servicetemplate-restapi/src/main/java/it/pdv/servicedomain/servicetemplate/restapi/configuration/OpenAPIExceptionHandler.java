@@ -11,14 +11,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import it.pdv.servicedomain.servicetemplate.restapi.exception.OpenAPIException;
 import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapper;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapperDelegate;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapperImpl;
 import it.pdv.servicedomain.servicetemplate.restapi.model.ProblemOpenAPI;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @ControllerAdvice
 public class OpenAPIExceptionHandler extends ResponseEntityExceptionHandler {
 
-	private ProblemMapper mapper = new ProblemMapperImpl(new ProblemMapperDelegate()); 
+	private final ProblemMapper mapper; 
 	
 	@ExceptionHandler (OpenAPIException.class)
     protected ResponseEntity<Object> handleOpenAPIException(OpenAPIException ex) {
@@ -31,7 +31,7 @@ public class OpenAPIExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatusCode statusCode, WebRequest request) {
 		OpenAPIException ex = new OpenAPIException(e);
 		ProblemOpenAPI problem = mapper.toProblem(ex);
-		return super.handleExceptionInternal(ex, problem, headers, statusCode, request);
+		return super.handleExceptionInternal(ex, problem, headers, HttpStatus.valueOf(problem.getStatus()), request);
 	}
 
 }

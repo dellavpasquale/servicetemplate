@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
@@ -38,7 +38,7 @@ class RetrievePrescriptionTest {
 	}
 	
 	@Test
-	void testGetPurchaseOrderFounded() throws InvalidDomainEntityException, DomainEntityNotFoundException, AccessDeniedException {
+	void testGetPurchaseOrderFounded() throws InvalidDomainEntityException, DomainEntityNotFoundException, ForbiddenOperationException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -77,7 +77,7 @@ class RetrievePrescriptionTest {
 	}
 	
 	@Test
-	void testGetPurchaseOrderByOwner() throws InvalidDomainEntityException, DomainEntityNotFoundException, AccessDeniedException {
+	void testGetPurchaseOrderByOwner() throws InvalidDomainEntityException, DomainEntityNotFoundException, ForbiddenOperationException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(accessControlService.hasPermission(any())).thenReturn(false);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -97,10 +97,10 @@ class RetrievePrescriptionTest {
 		
 		PurchaseOrderGetRequest purchaseOrderGetRequest = new PurchaseOrderGetRequest();
 		purchaseOrderGetRequest.setCode("code");
-		Exception exception = Assertions.assertThrows(AccessDeniedException.class, () -> {
+		Exception exception = Assertions.assertThrows(ForbiddenOperationException.class, () -> {
 			retrievePurchaseOrderUseCase.getPurchaseOrder(purchaseOrderGetRequest);
 		});
-		assertEquals("'entity': <PurchaseOrder>, 'code': <code>", exception.getMessage());
+		assertEquals("'entity': <PurchaseOrder>, 'code': <code>, 'operation': <GET>", exception.getMessage());
 	}
 
 }

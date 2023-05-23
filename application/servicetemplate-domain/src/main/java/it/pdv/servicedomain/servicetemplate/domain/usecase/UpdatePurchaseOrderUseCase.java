@@ -1,10 +1,7 @@
 package it.pdv.servicedomain.servicetemplate.domain.usecase;
 
-import org.mapstruct.factory.Mappers;
-
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
@@ -24,13 +21,11 @@ public class UpdatePurchaseOrderUseCase {
 	private final PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private final PurchaseOrderNotificationService purchaseOrderNotificationService;
 	
-	private PurchaseOrderMapper mapper = Mappers.getMapper(PurchaseOrderMapper.class);
-	
-	public PurchaseOrder update(PurchaseOrderEditRequest purchaseOrderEditRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	public PurchaseOrder update(PurchaseOrderEditRequest purchaseOrderEditRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, ForbiddenOperationException {
 		PurchaseOrder purchaseOrder = retrievePurchaseOrderUseCase.getPurchaseOrder(purchaseOrderEditRequest);
 		purchaseOrder.validate();
 		validateOperation(purchaseOrder);
-		mapper.updatePurchaseOrderFromPurchaseOrderEditRequest(purchaseOrderEditRequest, purchaseOrder);
+		PurchaseOrderMapper.INSTANCE.updatePurchaseOrderFromPurchaseOrderEditRequest(purchaseOrderEditRequest, purchaseOrder);
 		purchaseOrder.validate();
 		updatePurchaseOrder(purchaseOrder);
 		purchaseOrderNotificationService.notifyPurchaseOrderChange(purchaseOrder);

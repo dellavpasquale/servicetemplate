@@ -15,23 +15,20 @@ import it.pdv.servicedomain.servicetemplate.restapi.exception.OpenAPIException;
 import it.pdv.servicedomain.servicetemplate.restapi.mapper.PurchaseOrderMapper;
 import it.pdv.servicedomain.servicetemplate.restapi.model.PurchaseOrderOpenAPI;
 import it.pdv.servicedomain.servicetemplate.restapi.model.PurchaseOrderRequestOpenAPI;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class PurchaseOrderRestApiImpl implements PurchaseorderApiDelegate {
 
-	private PurchaseOrderMapper mapper = Mappers.getMapper(PurchaseOrderMapper.class);
-	private CreatePurchaseOrderUseCase createPurchaseOrderUseCase;
-	
-	public PurchaseOrderRestApiImpl(CreatePurchaseOrderUseCase createPurchaseOrderUseCase) {
-		this.createPurchaseOrderUseCase = createPurchaseOrderUseCase;
-	}
+	private final CreatePurchaseOrderUseCase createPurchaseOrderUseCase;
 	
 	@Override
 	public ResponseEntity<PurchaseOrderOpenAPI> createPurchaseOrder(
 			PurchaseOrderRequestOpenAPI purchaseOrderRequestOpenAPI) {
-		PurchaseOrderRequest purchaseOrderRequest = mapper.purchaseOrderRequestOpenAPIToPurchaseOrderRequest(purchaseOrderRequestOpenAPI);
+		PurchaseOrderRequest purchaseOrderRequest = PurchaseOrderMapper.INSTANCE.purchaseOrderRequestOpenAPIToPurchaseOrderRequest(purchaseOrderRequestOpenAPI);
 		try {
 			PurchaseOrder purchaseOrder = createPurchaseOrderUseCase.createPurchaseOrder(purchaseOrderRequest);
-			PurchaseOrderOpenAPI result = mapper.purchaseOrderToPurchaseOrderOpenAPI(purchaseOrder);
+			PurchaseOrderOpenAPI result = PurchaseOrderMapper.INSTANCE.purchaseOrderToPurchaseOrderOpenAPI(purchaseOrder);
 			return new ResponseEntity<PurchaseOrderOpenAPI>(result, HttpStatus.OK);
 		} catch (InvalidDomainEntityException | DomainEntityAlreadyExistsException | ForbiddenOperationException e) {
 			throw new OpenAPIException(e);

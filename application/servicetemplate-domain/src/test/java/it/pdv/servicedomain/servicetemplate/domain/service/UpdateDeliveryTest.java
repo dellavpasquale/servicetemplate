@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
@@ -49,7 +48,7 @@ class UpdateDeliveryTest {
 	}
 
 	@Test
-	void testUpdateDelivery() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	void testUpdateDelivery() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
@@ -62,7 +61,7 @@ class UpdateDeliveryTest {
 	}
 	
 	@Test
-	void testUpdateDeliveryInvalidOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	void testUpdateDeliveryInvalidOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
@@ -81,7 +80,7 @@ class UpdateDeliveryTest {
 	}
 	
 	@Test
-	void testUpdateDeliveryForbiddenOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	void testUpdateDeliveryForbiddenOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(false);

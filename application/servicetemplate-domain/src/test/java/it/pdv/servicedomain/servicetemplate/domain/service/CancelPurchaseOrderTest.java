@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
@@ -47,7 +46,7 @@ class CancelPurchaseOrderTest {
 	}
 
 	@Test
-	void testCancel() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	void testCancel() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -59,7 +58,7 @@ class CancelPurchaseOrderTest {
 	}
 
 	@Test
-	void testOrderPurchaseOrderAlreadyInProgress() throws DomainEntityNotFoundException, AccessDeniedException {
+	void testOrderPurchaseOrderAlreadyInProgress() throws DomainEntityNotFoundException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -79,7 +78,7 @@ class CancelPurchaseOrderTest {
 	}
 	
 	@Test
-	void tesForbiddenOperation() throws DomainEntityNotFoundException, AccessDeniedException {
+	void tesForbiddenOperation() throws DomainEntityNotFoundException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(false);

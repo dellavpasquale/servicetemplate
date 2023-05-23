@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
-import it.pdv.servicedomain.servicetemplate.domain.error.AccessDeniedException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
@@ -47,7 +46,7 @@ class UpdatePurchaseOrderTest {
 	}
 
 	@Test
-	void testOrder() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, AccessDeniedException, ForbiddenOperationException {
+	void testOrder() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -62,7 +61,7 @@ class UpdatePurchaseOrderTest {
 	}
 	
 	@Test
-	void testOrderPurchaseOrderAlreadyOrdered() throws DomainEntityNotFoundException, AccessDeniedException {
+	void testOrderPurchaseOrderAlreadyOrdered() throws DomainEntityNotFoundException, ForbiddenOperationException {
 		purchaseOrder.setProduct("product");
 		purchaseOrder.setStatus(Status.ORDERED);
 		purchaseOrder.setOrderedAt(Instant.now());
@@ -85,7 +84,7 @@ class UpdatePurchaseOrderTest {
 	}
 	
 	@Test
-	void testOrderPurchaseOrderForbidden() throws DomainEntityNotFoundException, AccessDeniedException {
+	void testOrderPurchaseOrderForbidden() throws DomainEntityNotFoundException, ForbiddenOperationException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(false);
