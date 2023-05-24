@@ -23,9 +23,8 @@ import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.usecase.CreatePurchaseOrderUseCase;
 import it.pdv.servicedomain.servicetemplate.restapi.PurchaseorderApiController;
+import it.pdv.servicedomain.servicetemplate.restapi.configuration.OpenAPIDomainExceptionHandler;
 import it.pdv.servicedomain.servicetemplate.restapi.configuration.OpenAPIExceptionHandler;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapperDelegate;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapperImpl;
 import it.pdv.servicedomain.servicetemplate.restapi.model.PurchaseOrderRequestOpenAPI;
 
 public class PurchaseOrderRestApiTest {
@@ -40,7 +39,7 @@ public class PurchaseOrderRestApiTest {
 		restEndPoint = MockMvcBuilders
 				.standaloneSetup(
 						new PurchaseorderApiController(new PurchaseOrderRestApiImpl(createPurchaseOrderUseCase)))
-				.setControllerAdvice(new OpenAPIExceptionHandler(new ProblemMapperImpl(new ProblemMapperDelegate())))
+				.setControllerAdvice(OpenAPIExceptionHandler.class, OpenAPIDomainExceptionHandler.class)
 				.build();
 	}
 
@@ -64,7 +63,7 @@ public class PurchaseOrderRestApiTest {
 		restEndPoint
 				.perform(post("/api/purchaseorder").content(asJsonString(new PurchaseOrderRequestOpenAPI()))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().is(500));
+				.andDo(print()).andExpect(status().is(400));
 	}
 
 	@Test

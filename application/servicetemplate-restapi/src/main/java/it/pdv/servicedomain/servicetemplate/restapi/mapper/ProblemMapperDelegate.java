@@ -1,58 +1,60 @@
 package it.pdv.servicedomain.servicetemplate.restapi.mapper;
 
+import java.net.URI;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
-import it.pdv.servicedomain.servicetemplate.restapi.model.ProblemOpenAPI;
 
 public class ProblemMapperDelegate {
 
-	public ProblemOpenAPI toProblem(DomainException e) {
-		ProblemOpenAPI problem = new ProblemOpenAPI();
-		problem.setType("/problem/generic");
+	public ProblemDetail toProblem(DomainException e) {
+		ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		problem.setType(URI.create("/problem/generic"));
+		problem.setTitle("Generic Error");
+		return problem;
+	}
+	
+	public ProblemDetail toProblem(InvalidDomainEntityException e) {
+		ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		problem.setType(URI.create("/problem/generic"));
 		problem.setTitle("Generic Error");
 		problem.setStatus(500);
 		return problem;
 	}
 	
-	public ProblemOpenAPI toProblem(InvalidDomainEntityException e) {
-		ProblemOpenAPI problem = new ProblemOpenAPI();
-		problem.setType("/problem/generic");
+	public ProblemDetail toProblem(DomainEntityAlreadyExistsException e) {
+		ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		problem.setType(URI.create("/problem/generic"));
 		problem.setTitle("Generic Error");
 		problem.setStatus(500);
 		return problem;
 	}
 	
-	public ProblemOpenAPI toProblem(DomainEntityAlreadyExistsException e) {
-		ProblemOpenAPI problem = new ProblemOpenAPI();
-		problem.setType("/problem/generic");
+	public ProblemDetail toProblem(ForbiddenOperationException e) {
+		ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		problem.setType(URI.create("/problem/generic"));
 		problem.setTitle("Generic Error");
 		problem.setStatus(500);
 		return problem;
 	}
 	
-	public ProblemOpenAPI toProblem(ForbiddenOperationException e) {
-		ProblemOpenAPI problem = new ProblemOpenAPI();
-		problem.setType("/problem/generic");
+	public ProblemDetail toProblem(Exception e) {
+		ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		problem.setType(URI.create("/problem/generic"));
 		problem.setTitle("Generic Error");
 		problem.setStatus(500);
 		return problem;
 	}
 	
-	public ProblemOpenAPI toProblem(Exception e) {
-		ProblemOpenAPI problem = new ProblemOpenAPI();
-		problem.setType("/problem/generic");
-		problem.setTitle("Generic Error");
-		problem.setStatus(500);
-		return problem;
-	}
-	
-	public ProblemOpenAPI toProblem(MethodArgumentNotValidException e) {
-		ProblemOpenAPI problem = new ProblemOpenAPI();
-		problem.setType("/problem/generic");
+	public ProblemDetail toProblem(MethodArgumentNotValidException e) {
+		ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		problem.setType(URI.create("/problem/generic"));
 		problem.setTitle("Generic Error");
 		problem.setStatus(500);
 		return problem;

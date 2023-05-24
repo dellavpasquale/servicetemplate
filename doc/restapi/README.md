@@ -53,11 +53,11 @@ This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-int
 
 #### Responses
 
-| Status Code | Message | Return Type |
+| Status Code | Message | Return Type | 
 | --- | --- | --- |
-| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |
-| 400 | Invalid request supplied | [Problem](#Problem) |
-| 500 | Internal error | [Problem](#Problem) |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) | 
+| 400 | Invalid request supplied | [Problem](#Problem) | 
+| 500 | Internal error | [Problem](#Problem) | 
 
 #### Example
 
@@ -130,11 +130,11 @@ curl -X  \
 
 #### Responses
 
-| Status Code | Message | Return Type |
+| Status Code | Message | Return Type | 
 | --- | --- | --- |
-| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |
-| 400 | Invalid request supplied | [Problem](#Problem) |
-| 500 | Internal error | [Problem](#Problem) |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) | 
+| 400 | Invalid request supplied | [Problem](#Problem) | 
+| 500 | Internal error | [Problem](#Problem) | 
 
 #### Example
 
@@ -202,12 +202,12 @@ where:
 
 #### Responses
 
-| Status Code | Message | Return Type |
+| Status Code | Message | Return Type | 
 | --- | --- | --- |
-| 200 | successful operation | [PurchaseOrder](#PurchaseOrder) |
-| 400 | Invalid request supplied | [Problem](#Problem) |
-| 404 | PurchaseOrder not found | [Problem](#Problem) |
-| 500 | Internal error | [Problem](#Problem) |
+| 200 | successful operation | [PurchaseOrder](#PurchaseOrder) | 
+| 400 | Invalid request supplied | [Problem](#Problem) | 
+| 404 | PurchaseOrder not found | [Problem](#Problem) | 
+| 500 | Internal error | [Problem](#Problem) | 
 
 #### Example
 
@@ -269,12 +269,12 @@ where:
 
 #### Responses
 
-| Status Code | Message | Return Type |
+| Status Code | Message | Return Type | 
 | --- | --- | --- |
-| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) |
-| 400 | Invalid request supplied | [Problem](#Problem) |
-| 404 | PurchaseOrder not found | [Problem](#Problem) |
-| 500 | Internal error | [Problem](#Problem) |
+| 200 | Successful operation | [PurchaseOrder](#PurchaseOrder) | 
+| 400 | Invalid request supplied | [Problem](#Problem) | 
+| 404 | PurchaseOrder not found | [Problem](#Problem) | 
+| 500 | Internal error | [Problem](#Problem) | 
 
 #### Example
 

@@ -17,6 +17,7 @@ import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundExc
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidOperationException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
@@ -48,7 +49,7 @@ class UpdateDeliveryTest {
 	}
 
 	@Test
-	void testUpdateDelivery() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
+	void testUpdateDelivery() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException, ServiceUnavailableException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
@@ -61,7 +62,7 @@ class UpdateDeliveryTest {
 	}
 	
 	@Test
-	void testUpdateDeliveryInvalidOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
+	void testUpdateDeliveryInvalidOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException, ServiceUnavailableException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
@@ -80,7 +81,7 @@ class UpdateDeliveryTest {
 	}
 	
 	@Test
-	void testUpdateDeliveryForbiddenOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
+	void testUpdateDeliveryForbiddenOperation() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException, ServiceUnavailableException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(false);

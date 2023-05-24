@@ -16,6 +16,7 @@ import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
@@ -38,7 +39,7 @@ class CreatePurchaseOrderTest {
 	}
 
 	@Test
-	void testCreatePurchaseOrder() throws InvalidDomainEntityException, DomainEntityAlreadyExistsException, ForbiddenOperationException {
+	void testCreatePurchaseOrder() throws InvalidDomainEntityException, DomainEntityAlreadyExistsException, ForbiddenOperationException, ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.createPurchaseOrder(any())).thenReturn(true);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
 
@@ -72,7 +73,7 @@ class CreatePurchaseOrderTest {
 	}
 
 	@Test
-	void tesPurchaseOrderAlreadyExists() {
+	void tesPurchaseOrderAlreadyExists() throws ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.createPurchaseOrder(any())).thenReturn(false);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
 

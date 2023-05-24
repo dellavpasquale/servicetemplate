@@ -5,10 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
-import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
-import it.pdv.servicedomain.servicetemplate.domain.usecase.CreatePurchaseOrderUseCase;
-import it.pdv.servicedomain.servicetemplate.persistence.repository.PurchaseOrderRepository;
-import it.pdv.servicedomain.servicetemplate.persistence.service.PurchaseOrderPersistenceServiceImpl;
 
 @Configuration
 public class MessageBusConfiguration {

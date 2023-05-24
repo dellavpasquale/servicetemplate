@@ -104,10 +104,10 @@ AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last
 
 #### Responses
 
-| Status Code | Message | Return Type |
+| Status Code | Message | Return Type | 
 | --- | --- | --- |
 {{#responses}}
-| {{code}} | {{message}} | {{#isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}{{#generateModelDocs}}[{{dataType}}](#{{baseType}}){{/generateModelDocs}}{{^generateModelDocs}}{{dataType}}{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}} |
+| {{code}} | {{message}} | {{#isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}{{#generateModelDocs}}[{{dataType}}](#{{baseType}}){{/generateModelDocs}}{{^generateModelDocs}}{{dataType}}{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}} | 
 {{/responses}}
 
 #### Example

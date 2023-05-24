@@ -3,6 +3,7 @@ package it.pdv.servicedomain.servicetemplate.domain.usecase;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.usecase.request.PurchaseOrderGetRequest;
@@ -15,7 +16,7 @@ public class RetrievePurchaseOrderUseCase {
 	private final AccessControlService accessControlService;
 
 	public PurchaseOrder getPurchaseOrder(PurchaseOrderGetRequest purchaseOrderGetRequest)
-			throws DomainEntityNotFoundException, ForbiddenOperationException {
+			throws DomainEntityNotFoundException, ForbiddenOperationException, ServiceUnavailableException {
 		String code = getOurchaseOrderCode(purchaseOrderGetRequest);
 		PurchaseOrder purchaseOrder = purchaseOrderPersistenceService.getPurchaseOrder(code);
 		if (purchaseOrder == null) {

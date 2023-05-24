@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.persistence.repository.PurchaseOrderRepository;
-import it.pdv.servicedomain.servicetemplate.persistence.service.PurchaseOrderPersistenceServiceImpl;
 
 @Transactional(propagation = Propagation.NEVER)
 @DataJpaTest(showSql = true)
@@ -32,14 +32,14 @@ class PurchaseOrderPersistenceServiceImplTest {
 	private PurchaseOrder purchaseOrder;
 	
 	@BeforeEach
-	void init() {
+	void init() throws ServiceUnavailableException {
 		purchaseOrderPersistenceService = new PurchaseOrderPersistenceServiceImpl(purchaseOrderRepository);
 		purchaseOrder = new PurchaseOrder(UUID.randomUUID().toString(), Status.DRAFT, "customer", Instant.now());
 		purchaseOrderPersistenceService.createPurchaseOrder(purchaseOrder);
 	}
 	
 	@Test
-	void testCreatePurchaseOrder() {
+	void testCreatePurchaseOrder() throws ServiceUnavailableException {
 		PurchaseOrder newPurchaseOrder = new PurchaseOrder("code", Status.DRAFT, "customer", Instant.now());
 		boolean result = purchaseOrderPersistenceService.createPurchaseOrder(newPurchaseOrder);
 		
@@ -47,14 +47,14 @@ class PurchaseOrderPersistenceServiceImplTest {
 	}
 	
 	@Test
-	void testCreateDuplicatedPurchaseOrder() {
+	void testCreateDuplicatedPurchaseOrder() throws ServiceUnavailableException {
 		boolean result = purchaseOrderPersistenceService.createPurchaseOrder(purchaseOrder);
 		
 		assertFalse(result);
 	}
 	
 	@Test
-	void testGetPurchaseOrder() {
+	void testGetPurchaseOrder() throws ServiceUnavailableException {
 		PurchaseOrder retrievedPurchaseOrder = purchaseOrderPersistenceService.getPurchaseOrder(purchaseOrder.getCode());
 		assertNotNull(retrievedPurchaseOrder);
 		assertEquals(purchaseOrder.getCode(), retrievedPurchaseOrder.getCode());
@@ -63,13 +63,13 @@ class PurchaseOrderPersistenceServiceImplTest {
 	}
 	
 	@Test
-	void testGetNoPurchaseOrder() {
+	void testGetNoPurchaseOrder() throws ServiceUnavailableException {
 		PurchaseOrder retrievedPurchaseOrder = purchaseOrderPersistenceService.getPurchaseOrder("nocode");
 		assertNull(retrievedPurchaseOrder);
 	}
 	
 	@Test
-	void testUpdatePurchaseOrder() {
+	void testUpdatePurchaseOrder() throws ServiceUnavailableException {
 		purchaseOrder.setOrderedAt(Instant.now());
 		purchaseOrder.setExpectedDeliveryAt(Instant.now());
 		purchaseOrder.setStatus(Status.DELIVERED);
@@ -86,7 +86,7 @@ class PurchaseOrderPersistenceServiceImplTest {
 	}
 	
 	@Test
-	void testUpdateNoPurchaseOrder() {
+	void testUpdateNoPurchaseOrder() throws ServiceUnavailableException {
 		purchaseOrder = new PurchaseOrder("updatecode", Status.DELIVERED, "customer", Instant.now());
 		purchaseOrder.setOrderedAt(Instant.now());
 		purchaseOrder.setExpectedDeliveryAt(Instant.now());

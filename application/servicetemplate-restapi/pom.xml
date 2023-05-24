@@ -106,6 +106,7 @@
 								<java8>true</java8>
 								<dateLibrary>custom</dateLibrary>
 								<useSpringBoot3>true</useSpringBoot3>
+								<unhandledException>true</unhandledException>
 							</configOptions>
 							<typeMappings>
 								<typeMapping>DateTime=Instant</typeMapping>

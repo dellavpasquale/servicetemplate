@@ -17,6 +17,7 @@ import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
 import it.pdv.servicedomain.servicetemplate.domain.usecase.RetrievePurchaseOrderUseCase;
@@ -38,7 +39,7 @@ class RetrievePrescriptionTest {
 	}
 	
 	@Test
-	void testGetPurchaseOrderFounded() throws InvalidDomainEntityException, DomainEntityNotFoundException, ForbiddenOperationException {
+	void testGetPurchaseOrderFounded() throws InvalidDomainEntityException, DomainEntityNotFoundException, ForbiddenOperationException, ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -51,7 +52,7 @@ class RetrievePrescriptionTest {
 	}
 
 	@Test
-	void testGetPurchaseOrderNotFound() throws InvalidDomainEntityException {
+	void testGetPurchaseOrderNotFound() throws InvalidDomainEntityException, ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(null);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -65,7 +66,7 @@ class RetrievePrescriptionTest {
 	}
 
 	@Test
-	void testGetPurchaseOrderNotFoundWithInvalidInput() throws InvalidDomainEntityException {
+	void testGetPurchaseOrderNotFoundWithInvalidInput() throws InvalidDomainEntityException, ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(null);
 		when(accessControlService.hasPermission(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -77,7 +78,7 @@ class RetrievePrescriptionTest {
 	}
 	
 	@Test
-	void testGetPurchaseOrderByOwner() throws InvalidDomainEntityException, DomainEntityNotFoundException, ForbiddenOperationException {
+	void testGetPurchaseOrderByOwner() throws InvalidDomainEntityException, DomainEntityNotFoundException, ForbiddenOperationException, ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(accessControlService.hasPermission(any())).thenReturn(false);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -90,7 +91,7 @@ class RetrievePrescriptionTest {
 	}
 	
 	@Test
-	void testGetPurchaseOrderWithoutPermission() throws InvalidDomainEntityException {
+	void testGetPurchaseOrderWithoutPermission() throws InvalidDomainEntityException, ServiceUnavailableException {
 		when(purchaseOrderPersistenceService.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(accessControlService.hasPermission(any())).thenReturn(false);
 		when(accessControlService.isLoggedUser(any())).thenReturn(false);

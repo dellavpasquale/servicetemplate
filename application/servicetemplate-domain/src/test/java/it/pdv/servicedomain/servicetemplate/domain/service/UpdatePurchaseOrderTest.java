@@ -18,6 +18,7 @@ import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundExc
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidOperationException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
@@ -46,7 +47,7 @@ class UpdatePurchaseOrderTest {
 	}
 
 	@Test
-	void testOrder() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException {
+	void testOrder() throws DomainEntityNotFoundException, InvalidOperationException, InvalidDomainEntityException, ForbiddenOperationException, ServiceUnavailableException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(true);
@@ -61,7 +62,7 @@ class UpdatePurchaseOrderTest {
 	}
 	
 	@Test
-	void testOrderPurchaseOrderAlreadyOrdered() throws DomainEntityNotFoundException, ForbiddenOperationException {
+	void testOrderPurchaseOrderAlreadyOrdered() throws DomainEntityNotFoundException, ForbiddenOperationException, ServiceUnavailableException {
 		purchaseOrder.setProduct("product");
 		purchaseOrder.setStatus(Status.ORDERED);
 		purchaseOrder.setOrderedAt(Instant.now());
@@ -84,7 +85,7 @@ class UpdatePurchaseOrderTest {
 	}
 	
 	@Test
-	void testOrderPurchaseOrderForbidden() throws DomainEntityNotFoundException, ForbiddenOperationException {
+	void testOrderPurchaseOrderForbidden() throws DomainEntityNotFoundException, ForbiddenOperationException, ServiceUnavailableException {
 		when(retrievePurchaseOrderUseCase.getPurchaseOrder(any())).thenReturn(purchaseOrder);
 		when(purchaseOrderPersistenceService.updatePurcahseOrder(any())).thenReturn(true);
 		when(accessControlService.isLoggedUser(any())).thenReturn(false);

@@ -3,11 +3,12 @@ package it.pdv.servicedomain.servicetemplate.restapi.mapper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.springframework.http.ProblemDetail;
+
 import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.restapi.exception.OpenAPIException;
-import it.pdv.servicedomain.servicetemplate.restapi.model.ProblemOpenAPI;
 
 public class ProblemMapperImpl implements ProblemMapper {
 
@@ -18,11 +19,7 @@ public class ProblemMapperImpl implements ProblemMapper {
 	}
 
 	@Override
-	public ProblemOpenAPI toProblem(OpenAPIException ex) {
-		Exception e = ex.getDomainException();
-		if (e == null) {
-			e = ex;
-		}
+	public ProblemDetail toProblem(Exception e) {
 		Method mapperMethod = resolveMapper(e);
 
 		return invokeMapper(mapperMethod, e);
@@ -48,10 +45,10 @@ public class ProblemMapperImpl implements ProblemMapper {
 		}
 	}
 
-	private ProblemOpenAPI invokeMapper(Method mapperMethod, Exception e) {
+	private ProblemDetail invokeMapper(Method mapperMethod, Exception e) {
 		if (mapperMethod != null) {
 			try {
-				return (ProblemOpenAPI) mapperMethod.invoke(delegate, e);
+				return (ProblemDetail) mapperMethod.invoke(delegate, e);
 			} catch (IllegalAccessException | InvocationTargetException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

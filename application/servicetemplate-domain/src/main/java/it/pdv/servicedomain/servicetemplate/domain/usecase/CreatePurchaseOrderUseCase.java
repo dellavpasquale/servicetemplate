@@ -8,6 +8,7 @@ import it.pdv.servicedomain.servicetemplate.domain.entity.PurchaseOrder.Status;
 import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityAlreadyExistsException;
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderPersistenceService;
@@ -22,7 +23,7 @@ public class CreatePurchaseOrderUseCase {
 	private final PurchaseOrderNotificationService purchaseOrderNotificationService;
 	private final AccessControlService accessControlService;
 	
-	public PurchaseOrder createPurchaseOrder(PurchaseOrderRequest purchaseOrderRequest) throws InvalidDomainEntityException, DomainEntityAlreadyExistsException, ForbiddenOperationException {
+	public PurchaseOrder createPurchaseOrder(PurchaseOrderRequest purchaseOrderRequest) throws InvalidDomainEntityException, DomainEntityAlreadyExistsException, ForbiddenOperationException, ServiceUnavailableException {
 		PurchaseOrder purchaseOrder = buildPurchaseOrder(purchaseOrderRequest);
 		purchaseOrder.validate();
 		validateOperation(purchaseOrder);
@@ -53,7 +54,7 @@ public class CreatePurchaseOrderUseCase {
 		return accessControlService.hasPermission("create");
 	}
 	
-	private void createPurchaseOrder(PurchaseOrder purchaseOrder) throws DomainEntityAlreadyExistsException {
+	private void createPurchaseOrder(PurchaseOrder purchaseOrder) throws DomainEntityAlreadyExistsException, ServiceUnavailableException {
 		boolean purchaseOrderCreated = purchaseOrderPersistenceService.createPurchaseOrder(purchaseOrder);
 		if(!purchaseOrderCreated) {
 			throw new DomainEntityAlreadyExistsException(PurchaseOrder.class, purchaseOrder.getCode());

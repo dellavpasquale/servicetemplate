@@ -1,10 +1,9 @@
 package it.pdv.servicedomain.servicetemplate.restapi.mapper;
 
-import it.pdv.servicedomain.servicetemplate.restapi.exception.OpenAPIException;
-import it.pdv.servicedomain.servicetemplate.restapi.model.ProblemOpenAPI;
+import org.springframework.http.ProblemDetail;
 
 public interface ProblemMapper {
 
-	ProblemOpenAPI toProblem(OpenAPIException ex);
+	ProblemDetail toProblem(Exception ex);
 
 }

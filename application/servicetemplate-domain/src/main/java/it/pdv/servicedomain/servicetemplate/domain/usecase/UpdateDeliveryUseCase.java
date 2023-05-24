@@ -6,6 +6,7 @@ import it.pdv.servicedomain.servicetemplate.domain.error.DomainEntityNotFoundExc
 import it.pdv.servicedomain.servicetemplate.domain.error.ForbiddenOperationException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidDomainEntityException;
 import it.pdv.servicedomain.servicetemplate.domain.error.InvalidOperationException;
+import it.pdv.servicedomain.servicetemplate.domain.error.ServiceUnavailableException;
 import it.pdv.servicedomain.servicetemplate.domain.mapper.PurchaseOrderMapper;
 import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.port.PurchaseOrderNotificationService;
@@ -22,7 +23,7 @@ public class UpdateDeliveryUseCase {
 	private final PurchaseOrderPersistenceService purchaseOrderPersistenceService;
 	private final PurchaseOrderNotificationService purchaseOrderNotificationService;
 	
-	public PurchaseOrder updateDelivery(DeliveryEditRequest deliveryEditRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, ForbiddenOperationException {
+	public PurchaseOrder updateDelivery(DeliveryEditRequest deliveryEditRequest) throws InvalidOperationException, DomainEntityNotFoundException, InvalidDomainEntityException, ForbiddenOperationException, ServiceUnavailableException {
 		PurchaseOrder purchaseOrder = retrievePurchaseOrderUseCase.getPurchaseOrder(deliveryEditRequest);
 		validateOperation(purchaseOrder);
 		PurchaseOrderMapper.INSTANCE.updatePurchaseOrderFromDeliveryEditRequest(deliveryEditRequest, purchaseOrder);
@@ -44,7 +45,7 @@ public class UpdateDeliveryUseCase {
 		return accessControlService.hasPermission("updateDelivery");
 	}
 	
-	private void updatePurchaseOrder(PurchaseOrder purchaseOrder) throws DomainEntityNotFoundException {
+	private void updatePurchaseOrder(PurchaseOrder purchaseOrder) throws DomainEntityNotFoundException, ServiceUnavailableException {
 		boolean purchaseOrderFound = purchaseOrderPersistenceService.updatePurcahseOrder(purchaseOrder);
 		if(!purchaseOrderFound) {
 			throw new DomainEntityNotFoundException(PurchaseOrder.class, purchaseOrder.getCode());
