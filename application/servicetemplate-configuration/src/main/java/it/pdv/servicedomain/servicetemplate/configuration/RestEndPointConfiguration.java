@@ -7,9 +7,6 @@ import it.pdv.servicedomain.servicetemplate.domain.port.AccessControlService;
 import it.pdv.servicedomain.servicetemplate.domain.usecase.CreatePurchaseOrderUseCase;
 import it.pdv.servicedomain.servicetemplate.restapi.PurchaseorderApiController;
 import it.pdv.servicedomain.servicetemplate.restapi.PurchaseorderApiDelegate;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapper;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapperDelegate;
-import it.pdv.servicedomain.servicetemplate.restapi.mapper.ProblemMapperImpl;
 import it.pdv.servicedomain.servicetemplate.restapi.service.PurchaseOrderRestApiImpl;
 
 @Configuration
@@ -23,11 +20,6 @@ public class RestEndPointConfiguration {
 	@Bean
 	public PurchaseorderApiDelegate getPurchaseorderApiDelegate(CreatePurchaseOrderUseCase createPurchaseOrderUseCase) {
 		return new PurchaseOrderRestApiImpl(createPurchaseOrderUseCase);
-	}
-	
-	@Bean
-	public ProblemMapper getProblemMapper() {
-		return new ProblemMapperImpl(new ProblemMapperDelegate());
 	}
 	
 	@Bean
