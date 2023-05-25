@@ -17,7 +17,8 @@ This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-int
 
 ## Security
 
-*Not defined*
+**BearerAuth:** Bearer Authentication (JWT)  
+
 ## Endpoints
 
   
@@ -32,9 +33,10 @@ This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-int
 **HttpMethod:** POST  
 **Protocol:** https  
 **Path:** /purchaseorder  
-**Produces:** application/json    
+**Produces:** application/json, application/problem+json    
 **Consumes:** application/json 
 
+**AuthenticationMethod:** *BearerAuth* 
 
 
 #### Parameters
@@ -65,7 +67,8 @@ This is the API to manage PurchaseOrder objects <br><br>Audience: <i>company-int
 
 ```bash
 curl -X  \
--H "Accept: application/json" \
+-H "Authorization: Bearer [[accessToken]]" \
+-H "Accept: application/json,application/problem+json" \
 -H "Content-Type: application/json" \
 "https://purchaseorder/api/purchaseorder" \
 -d '{
@@ -102,9 +105,10 @@ curl -X  \
 **HttpMethod:** POST  
 **Protocol:** https  
 **Path:** /purchaseorder/{purchaseorderCode}/transition  
-**Produces:** application/json    
+**Produces:** application/json, application/problem+json    
 **Consumes:** application/json 
 
+**AuthenticationMethod:** *BearerAuth* 
 
 
 #### Parameters
@@ -142,7 +146,8 @@ curl -X  \
 
 ```bash
 curl -X  \
--H "Accept: application/json" \
+-H "Authorization: Bearer [[accessToken]]" \
+-H "Accept: application/json,application/problem+json" \
 -H "Content-Type: application/json" \
 "https://purchaseorder/api/purchaseorder/{purchaseorderCode}/transition" \
 -d '{
@@ -181,9 +186,10 @@ where:
 **HttpMethod:** GET  
 **Protocol:** https  
 **Path:** /purchaseorder/{purchaseorderCode}  
-**Produces:** application/json    
+**Produces:** application/json, application/problem+json    
 
 
+**AuthenticationMethod:** *BearerAuth* 
 
 
 #### Parameters
@@ -215,7 +221,8 @@ where:
 
 ```bash
 curl -X  \
--H "Accept: application/json" \
+-H "Authorization: Bearer [[accessToken]]" \
+-H "Accept: application/json,application/problem+json" \
 "https://purchaseorder/api/purchaseorder/{purchaseorderCode}"
 ```
 where:  
@@ -248,9 +255,10 @@ where:
 **HttpMethod:** PUT  
 **Protocol:** https  
 **Path:** /purchaseorder  
-**Produces:** application/json    
+**Produces:** application/json, application/problem+json    
 **Consumes:** application/json 
 
+**AuthenticationMethod:** *BearerAuth* 
 
 
 #### Parameters
@@ -282,7 +290,8 @@ where:
 
 ```bash
 curl -X  \
--H "Accept: application/json" \
+-H "Authorization: Bearer [[accessToken]]" \
+-H "Accept: application/json,application/problem+json" \
 -H "Content-Type: application/json" \
 "https://purchaseorder/api/purchaseorder" \
 -d '{

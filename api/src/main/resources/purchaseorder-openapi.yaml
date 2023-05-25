@@ -27,9 +27,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PurchaseOrderRequest'
-            example:
-              code: e9dc6700-9842-40db-9e60-9e7044a3791a
-              customer: re
         required: true
       responses:
         '200':
@@ -38,19 +35,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrder'    
-              example:
-                orderedAt: 2000-01-23T04:56:07.000+00:00,
-                createdAt : 2000-01-23T04:56:07.000+00:00,
-                product : Water
-                amount : 99.95,
-                code : e9dc6700-9842-40db-9e60-9e7044a3791a
-                status : ORDERED
-                customer : Fra
-                expectedDeliveryAt : 2000-01-23T04:56:07.000+00:00
         '400':
           description: Invalid request supplied
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
               examples:
@@ -59,16 +47,9 @@ paths:
         '500':
           description: Internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
-              examples:
-                example12:
-                  value:
-                    type: gggg
-                    title: title
-                    status: 400
-                    instance: aaaaaaaa
     put:
       tags:
         - purchaseorder
@@ -92,19 +73,19 @@ paths:
         '400':
           description: Invalid request supplied
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '404':
           description: PurchaseOrder not found
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '500':
           description: Internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
   /purchaseorder/{purchaseorderCode}:
@@ -134,19 +115,19 @@ paths:
         '400':
           description: Invalid request supplied
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '404':
           description: PurchaseOrder not found
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '500':
           description: Internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
   /purchaseorder/{purchaseorderCode}/transition:
@@ -183,13 +164,13 @@ paths:
         '400':
           description: Invalid request supplied
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '500':
           description: Internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
 components:
@@ -325,14 +306,10 @@ components:
             e.g. by adding a fragment identifier or sub-path to the problem type.
             May be used to locate the root of this problem in the source code.
           example: '/some/uri-reference#specific-occurrence-context'
-  examples:
-    ex1:
-      summary: ciaone ex1
-      description:  desc ex1
-      value: 
-        {
-          "type": "wewewewewew",
-          "title": "title",
-          "status": "400",
-          "instance": "aaaaaaaa",
-        }
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: [ ]

@@ -24,10 +24,7 @@
 
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{name}} {{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}} TokenUrl:{{tokenUrl}} RefreshUrl:{{refreshUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}} KeyInCookie:{{isKeyInCookie}} {{/isApiKey}}  {{#scopes}}{{#-last}}, Scopes: {{#scopes}}`{{{scope}}}`{{^-last}}, {{/-last}}{{/scopes}}{{/-last}}{{/scopes}}
-{{^-last}}, {{/-last}}  
-
-{{#isPassword}}password{{/isPassword}}{{#isCode}}code{{/isCode}}{{#isImplicit}}implicit{{/isImplicit}})
+**{{name}}:** {{#isBasic}}{{#isBasicBasic}}HTTP Basic Authentication{{/isBasicBasic}}{{#isBasicBearer}}Bearer Authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}{{/isBasicBearer}}{{/isBasic}}{{#isOAuth}}OAuth {{#flow}}{{flow}}{{/flow}} AuthorizationUrl:{{authorizationUrl}} TokenUrl:{{tokenUrl}} RefreshUrl:{{refreshUrl}} {{#scopes}}{{#-last}}, Scopes: {{#scopes}}`{{{scope}}}`{{^-last}}, {{/-last}}{{/scopes}}{{/-last}}{{/scopes}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}} KeyInCookie:{{isKeyInCookie}} {{/isApiKey}}  
 {{/authMethods}}
 {{/hasAuthMethods}}
 {{^hasAuthMethods}}*Not defined*{{/hasAuthMethods}}
@@ -50,10 +47,10 @@
 
 {{#hasAuthMethods}}
 {{#authMethods}}
-AuthMethodame = "{{name}}" Scopes = { {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }
+**AuthenticationMethod:** *{{name}}* {{#isOAuth}}Scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ] {{/isOAuth}}
 {{^-last}},{{/-last}}
 {{/authMethods}}
-}{{/hasAuthMethods}}
+{{/hasAuthMethods}}
 
 #### Parameters
 
@@ -129,10 +126,12 @@ where:
 ##### Response
 
 {{#hasExamples}}
-{{#examples}}  
+{{#examples}}
+{{^-last}}  
 ```json
 {{{example}}}
 ```
+{{/-last}}
 {{/examples}}
 {{/hasExamples}}
 
